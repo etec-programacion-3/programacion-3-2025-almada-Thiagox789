@@ -1,0 +1,4 @@
+FastAPi
+Uvicorn
+SQLAlchemy
+Pydantic
