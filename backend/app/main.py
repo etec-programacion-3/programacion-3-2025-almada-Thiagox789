@@ -1,7 +1,5 @@
 from fastapi import FastAPI
-
+from app.routes.Route_Producto import router as producto_router
 app = FastAPI()
 
-@app.get("/")
-def Ruta_De_Pruebas():
-    return "Si ves esto anda :)"
+app.include_router(producto_router)
