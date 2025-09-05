@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # Configuración de la URL de la base de datos SQLite.
-SQLALCHEMY_DATABASE_URL = "sqlite:///./database.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./mundodeporte.db"
 
 # `connect_args` es necesario para SQLite.
 engine = create_engine(

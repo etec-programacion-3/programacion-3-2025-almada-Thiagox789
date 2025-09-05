@@ -1,8 +1,10 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import *
 from .db import Base
 
-class producto(Base):
+class productos(Base):
     __tablename__ = "producto"
-    ID_Producto = Column(Integer, primary_key=True, index=True)
-    Precio = Column(float, index=True)
-    Cantidad = Column(Integer, index=True)  
+   
+    id_producto = Column(Integer, primary_key=True, index=True)
+    nombre = Column(String, index=True)
+    precio = Column(Float, index=True)
+    cantidad = Column(Integer, index=True)
