@@ -2,3 +2,4 @@ FastAPi
 Uvicorn
 SQLAlchemy
 Pydantic
+Aleambic
