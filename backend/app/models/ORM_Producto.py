@@ -1,5 +1,5 @@
 from sqlalchemy import *
-from .db import Base
+from backend.app.database.db import Base
 
 class Producto(Base): # Renombrado a Producto para mayor claridad
     __tablename__ = "producto"
