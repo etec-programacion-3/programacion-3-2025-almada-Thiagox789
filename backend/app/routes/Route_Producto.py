@@ -1,4 +1,4 @@
-# backend/app/routes/producto_routes.py
+# backend/app/routes/Route_Producto.py
 
 from fastapi import APIRouter
 
@@ -11,6 +11,7 @@ router = APIRouter(
 @router.get("/")
 def leer_productos():
     return {"mensaje": "Servidor funcionando y ruta de productos OK"}
+
 # Endpoint de prueba acceder mediante localhost:8000/prueba/probando/otras/barras
 @router.get("/probando/otras/barras")
 def leer_productos():

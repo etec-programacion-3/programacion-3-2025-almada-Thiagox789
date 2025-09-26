@@ -3,3 +3,6 @@ Uvicorn
 SQLAlchemy
 Pydantic
 alembic
+Pydantic
+bcrypt
+pyjwt
