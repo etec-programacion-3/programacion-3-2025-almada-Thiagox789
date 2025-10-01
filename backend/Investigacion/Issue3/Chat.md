@@ -23,7 +23,6 @@ Claro, aquí tienes los pasos detallados para implementar los endpoints de regis
  - Hashear contraseñas con bcrypt.
  - Verificar contraseñas.
 
-
 4. **Crear funciones para generar y verificar JWT**  
    Usa python-jose para Crea funciones para:
    - Generar tokens JWT.
