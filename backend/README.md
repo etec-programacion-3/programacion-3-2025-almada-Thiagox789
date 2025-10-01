@@ -49,14 +49,13 @@ Sigue estos pasos para levantar el servidor FastAPI:
   
 2.  **Crea y activa un entorno virtual**:
     ```bash
-    python3 -m venv backend/venv
-    source backend/venv/bin/activate
+    python3 -m venv venv
+    source venv/bin/activate
     ```
 
 3.  **Instala las dependencias**:
     Asegúrate de que tu entorno virtual esté activado y luego instala los paquetes listados en `requirements.txt`.
     ```bash
-    pip install -r backend/requirements.txt
     ```
 
 4.  **Inicia el servidor FastAPI**:
