@@ -5,4 +5,4 @@ from fastapi import APIRouter
 router = APIRouter
 @router.post("/registro")
 def RegistrarUsuario(usuario: Usuario):
-    return {"mensaje": "Usuario registrado correctamente", "usuario": usuario}
+    return {f"Usuario {usuario.nombre_usuario} registrado con éxito"}
