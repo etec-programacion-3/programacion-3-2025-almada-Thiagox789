@@ -8,23 +8,26 @@ Ddecime paso a paso de lo que tendria que hacer para realizar esta issue. No lo 
     Criterios de Aceptación: Un usuario puede registrarse a través de la API. Un usuario registrado puede hacer login y recibir un token de acceso. El token puede ser utilizado para acceder a un endpoint protegido de prueba.
     Estimación de Esfuerzo: 3 sesiones.
 
-
-
 Claro, aquí tienes los pasos detallados para implementar los endpoints de registro y login con autenticación JWT en FastAPI:
 
 ## Pasos detallados:
 
 1. **Instalar dependencias necesarias**  
-   Instala fastapi, uvicorn, bcrypt, y python-jose para JWT:
+   Instala fastapi, uvicorn, bcrypt, y pyjwt para JWT:
 
 2. **Crear el esquema Pydantic para usuario y login**  
    Define modelos en `/schemas/Usuario.py` para validar los datos de entrada (registro y login).
 
 3. **Implementar el hashing de contraseñas**  
-   En el backend, crea funciones para hashear y verificar contraseñas usando bcrypt.
+   En /app/models/ORM_User.py o en un archivo utilitario, crea funciones para:
+ - Hashear contraseñas con bcrypt.
+ - Verificar contraseñas.
 
 4. **Crear funciones para generar y verificar JWT**  
-   Usa python-jose para crear y validar tokens JWT.
+   Usa python-jose para Crea funciones para:
+   - Generar tokens JWT.
+   - Verificar tokens JWT.
+   - Puedes hacerlo en un archivo utilitario, por ejemplo, /app/utils/jwt.py..
 
 5. **Crear el endpoint /register**  
    En `/routes/Route_usuario.py`, crea un endpoint POST que:  
@@ -39,9 +42,13 @@ Claro, aquí tienes los pasos detallados para implementar los endpoints de regis
    - Verifique que el usuario existe y la contraseña es correcta.  
    - Genere y devuelva un JWT si la autenticación es exitosa.
 7. **Crear un endpoint protegido de prueba**  
-   Crea un endpoint que requiera el JWT en el header para acceder (por ejemplo, `/protected`).
+   En /app/routes/Route_usuario.py:
+    - Crea un endpoint (ejemplo: /protected) que requiera el JWT en el header para acceder.
 8. **Probar los endpoints**  
-   Usa herramientas como curl o Postman para probar el registro, login y acceso al endpoint protegido.
+   Usa curl, httpie o Postman para probar:
+   - Registro.
+   - Login.
+   - Acceso al endpoint protegido usando el token.
 9. **Documentar y limpiar el código**  
    Agrega comentarios y asegúrate de que el código sea claro y seguro.
 

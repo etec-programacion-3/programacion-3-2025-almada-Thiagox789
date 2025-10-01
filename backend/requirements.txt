@@ -1,8 +1,7 @@
 FastAPi
 Uvicorn
 SQLAlchemy
-Pydantic
 alembic
 Pydantic
-bcrypt
 pyjwt
+passlib[bcrypt]
