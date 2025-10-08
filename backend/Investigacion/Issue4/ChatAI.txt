@@ -1,0 +1,72 @@
+neescito que me digas como hacer esto pero una lista de pasos a pasos pero no codgio. con que archvios deberia crear, borrar, que tienen que tener deams como si fuese una lista  de pasos . Desarrollo del CRUD de Productos con Endpoints Protegidos #4
+Open
+Task
+@dqmdz
+Description
+dqmdz
+opened on Sep 2
+
+    Descripción: Crear la API REST completa para la gestión de productos. Esto incluye endpoints para GET (listar todos y obtener uno), POST (crear), PUT (actualizar) y DELETE (eliminar). Las operaciones de creación, actualización y eliminación deben estar protegidas, requiriendo un token JWT válido.
+    Objetivo de Aprendizaje: Implementación de los principios REST, uso de parámetros de ruta y consulta, dependencias de seguridad en FastAPI y serialización de datos para las respuestas.
+    Prerrequisitos: Implementación de Endpoints de Autenticación.
+    Criterios de Aceptación: Se pueden listar y ver productos sin autenticación. Solo los usuarios autenticados pueden crear, modificar o eliminar productos. La API responde con los códigos de estado HTTP correctos para cada operación.
+    Estimación de Esfuerzo: 3 sesiones.
+
+
+
+
+Claro, aquí tienes una lista de pasos para desarrollar el CRUD de productos con endpoints protegidos, indicando qué archivos crear, modificar y qué debe contener cada uno:
+
+Lista de pasos para el CRUD de Productos con Endpoints Protegidos
+1. Preparar el modelo ORM
+Archivo: ORM_Producto.py
+Acción: Verifica que el modelo Producto tenga todos los campos necesarios (id, nombre, descripción, cantidad, precio).
+No borrar.
+
+2. Crear los Schemas Pydantic
+Archivo: backend/app/schemas/Producto.py
+Acción:
+Crea este archivo si no existe.
+Define tres clases: ProductoBase, ProductoCreate, Producto.
+Estas clases deben reflejar los campos del modelo ORM y permitir la serialización/deserialización de datos.
+
+3. Crear/Modificar las Rutas de Producto
+Archivo: Route_Producto.py
+Acción:
+Si no existe, crea el archivo.
+Implementa los endpoints REST:
+GET /productos (listar todos, público)
+GET /productos/{id} (ver uno, público)
+POST /productos (crear, protegido)
+PUT /productos/{id} (actualizar, protegido)
+DELETE /productos/{id} (eliminar, protegido)
+Usa los schemas Pydantic para validar y serializar datos.
+Protege los endpoints de creación, actualización y eliminación usando la dependencia JWT.
+
+4. Configurar la Seguridad
+Archivo: auth.py
+Acción:
+Verifica que la función para obtener el usuario actual con JWT esté implementada.
+No borrar, solo modificar si es necesario.
+
+5. Registrar las Rutas en la Aplicación Principal
+Archivo: main.py
+Acción:
+Asegúrate de que el router de productos esté incluido en la instancia de FastAPI.
+No borrar, solo agregar la inclusión del router si falta.
+
+6. Probar los Endpoints
+Herramienta: Postman, curl o Swagger UI
+Acción:
+Prueba los endpoints públicos sin autenticación.
+Prueba los endpoints protegidos con y sin token JWT.
+Verifica que los códigos de estado HTTP sean correctos (200, 201, 204, 401, 404).
+
+7. Documentar y Limpiar
+Archivos: Todos los anteriores
+Acción:
+Añade comentarios y docstrings.
+Revisa que los endpoints estén documentados en Swagger/OpenAPI.
+Elimina código innecesario o duplicado.
+No borres ningún archivo importante del modelo, rutas, schemas o autenticación. Solo crea o modifica según lo necesario.
+
