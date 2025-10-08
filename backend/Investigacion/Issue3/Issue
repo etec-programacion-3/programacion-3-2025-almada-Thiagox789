@@ -1,0 +1,6 @@
+
+    Descripción: Construir los endpoints de la API para el registro (/register) y el inicio de sesión (/login). La autenticación se gestionará mediante JSON Web Tokens (JWT). Se debe asegurar que las contraseñas se almacenen de forma segura utilizando una función de hashing (ej: bcrypt).
+    Objetivo de Aprendizaje: Creación de endpoints POST, validación de datos de entrada con Pydantic, hashing de contraseñas, y generación y validación de tokens JWT para la gestión de sesiones.
+    Prerrequisitos: Modelado de Datos.
+    Criterios de Aceptación: Un usuario puede registrarse a través de la API. Un usuario registrado puede hacer login y recibir un token de acceso. El token puede ser utilizado para acceder a un endpoint protegido de prueba.
+    Estimación de Esfuerzo: 3 sesiones.
