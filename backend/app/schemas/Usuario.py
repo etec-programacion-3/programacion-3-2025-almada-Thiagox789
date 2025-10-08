@@ -1,17 +1,22 @@
-from pydantic import BaseModel, EmailStr, FIeld
+from pydantic import BaseModel, EmailStr, Field
+from typing import Optional
 
-
-#Crear valicaciones para el registro de un usuario
+# Esquema para el registro de un usuario
 class RegistroUsuario(BaseModel):
     email_usuario: EmailStr
-    nombre_usuario: str(Field(min_length=3, max_length=15))
-    apellido_usuario: str(Field(min_length=3, max_length=15))
-    password: str(Field(min_length=8, max_length=16))
+    nombre_usuario: str = Field(min_length=3, max_length=15)
+    apellido_usuario: str = Field(min_length=3, max_length=15)
+    password: str = Field(min_length=8, max_length=16)
 
-class LogearUsuario(BaseModel):
+# Esquema para el inicio de sesión de un usuario
+class LoginUsuario(BaseModel):
     email_usuario: EmailStr
-    nombre_usuario: str
     password: str
 
-#Se podria crear una validacion mejor para la contraseña por ejemplo que tenga que ver 
-# mayuscales entre otras pero no es nesecario
+# Esquema para el token JWT
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    email_usuario: Optional[str] = None
