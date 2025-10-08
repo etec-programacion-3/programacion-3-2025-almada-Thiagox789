@@ -1,9 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Optional
-
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
@@ -13,7 +11,7 @@ from backend.app.schemas.Usuario import TokenData
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Configuración para JWT
-SECRET_KEY = "tu_super_secreto_jwt"  # ¡Cambia esto por una clave segura en producción!
+SECRET_KEY = "CONTRASEÑA_ULTRA_SEGURRRA"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
