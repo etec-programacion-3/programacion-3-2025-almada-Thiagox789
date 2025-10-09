@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from backend.app.routes.Route_Producto import router as producto_router
-from backend.app.routes.Route_Auth import router as auth_router
-from backend.app.database.db import Base, engine
+from app.routes.Route_Producto import router as producto_router
+from app.routes.Route_Auth import router as auth_router
+from app.database.db import Base, engine
 # Crear la aplicacion FastAPI
 app = FastAPI()
 

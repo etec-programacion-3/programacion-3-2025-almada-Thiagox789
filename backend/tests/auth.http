@@ -1,0 +1,25 @@
+### Registrar un Nuevo Usuario
+POST http://localhost:8000/auth/register
+Content-Type: application/json
+
+{
+    "email_usuario": "http.user@example.com",
+    "nombre_usuario": "HTTP",
+    "apellido_usuario": "User",
+    "password": "httppassword"
+}
+
+### Iniciar Sesión y Obtener un Token
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+    "email_usuario": "http.user@example.com",
+    "password": "httppassword"
+}
+
+### Acceder a una Ruta Protegida
+### Acceder a una Ruta Protegida
+GET http://localhost:8000/auth/protected
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwLnVzZXJAZXhhbXBsZS5jb20iLCJleHAiOjE3NTk5NzM5MTV9.mQ50aBi-mfRhjwxdtPMuSgi5-L3mXH98Z3EJbJ6o5Gg
+

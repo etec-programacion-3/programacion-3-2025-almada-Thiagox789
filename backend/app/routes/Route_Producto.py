@@ -23,5 +23,3 @@ def actualizar_producto(producto_id):
 @router.delete("/{producto_id}")
 def eliminar_producto(producto_id):
     return {"mensaje": "Servidor funcionando y ruta de productos eliminar OK"}
-
--

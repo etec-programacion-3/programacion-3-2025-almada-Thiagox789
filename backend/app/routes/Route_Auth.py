@@ -1,26 +1,28 @@
+from datetime import timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from backend.app.database.db import SessionLocal
-from backend.app.models.ORM_User import Usuario
-from backend.app.schemas.Usuario import RegistroUsuario, LoginUsuario, Token, TokenData
-from backend.auth import get_password_hash, verify_password, create_access_token, get_current_user
+from app.database.db import SessionLocal
+from app.models.ORM_User import Usuario
+from app.schemas.Usuario import RegistroUsuario, LoginUsuario, Token, TokenData
+from auth import get_password_hash, verify_password, create_access_token, get_current_user
+
 
 router = APIRouter(
     prefix="/auth",
-    tags=["Autenticación"]
 )
 
-# Dependency
+# Obtener la sesión de la base de datos
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
+#cerrar la sesion de la base de datos cuando se termine. 
 
 @router.post("/register", response_model=dict)
-def register_user(user: RegistroUsuario, db: Session = Depends(get_db)):
+def registrar_usuario(user: RegistroUsuario, db: Session = Depends(get_db)):
     db_user = db.query(Usuario).filter(Usuario.email_usuario == user.email_usuario).first()
     if db_user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="El email ya está registrado")
@@ -39,7 +41,7 @@ def register_user(user: RegistroUsuario, db: Session = Depends(get_db)):
     return {"mensaje": "Usuario registrado exitosamente"}
 
 @router.post("/login", response_model=Token)
-def login_for_access_token(user_credentials: LoginUsuario, db: Session = Depends(get_db)):
+def iniciar_sesion_para_token_acceso(user_credentials: LoginUsuario, db: Session = Depends(get_db)):
     user = db.query(Usuario).filter(Usuario.email_usuario == user_credentials.email_usuario).first()
     if not user or not verify_password(user_credentials.password, user.hashed_password):
         raise HTTPException(
@@ -54,5 +56,5 @@ def login_for_access_token(user_credentials: LoginUsuario, db: Session = Depends
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.get("/protected", response_model=dict)
-async def protected_route(current_user: TokenData = Depends(get_current_user)):
+async def ruta_protegida(current_user: TokenData = Depends(get_current_user)):
     return {"mensaje": f"Bienvenido, {current_user.email_usuario}! Has accedido a una ruta protegida."}
