@@ -1,5 +1,6 @@
 from sqlalchemy import *
-from backend.app.database.db import Base
+from app.database.db import Base
+
 
 class Usuario(Base): # Renombrado a Usuario para mayor claridad
     __tablename__ = "usuario"
