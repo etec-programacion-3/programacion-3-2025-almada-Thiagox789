@@ -19,5 +19,7 @@ Content-Type: application/json
 }
 
 ### Acceder a una Ruta Protegida
+### Acceder a una Ruta Protegida
 GET http://localhost:8000/auth/protected
-Authorization: Bearer [eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwLnVzZXJAZXhhbXBsZS5jb20iLCJleHAiOjE3NTk5NzM4ODJ9.ftTTLa_XfrNiQAmmu308HfJwUHeceNyJ66DhesRDKso]
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwLnVzZXJAZXhhbXBsZS5jb20iLCJleHAiOjE3NTk5NzM5MTV9.mQ50aBi-mfRhjwxdtPMuSgi5-L3mXH98Z3EJbJ6o5Gg
+
