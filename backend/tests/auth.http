@@ -22,4 +22,3 @@ Content-Type: application/json
 ### Acceder a una Ruta Protegida
 GET http://localhost:8000/auth/protected
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwLnVzZXIxQGV4YW1wbGUuY29tIiwiZXhwIjoxNzYwMTI5NzMyfQ.P1IA6tsBurPgrKRtPtsBCdxHD5OVEV9CiZlOUvCsEjI
-
