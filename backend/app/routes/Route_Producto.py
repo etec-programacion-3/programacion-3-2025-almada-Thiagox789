@@ -6,7 +6,7 @@ from typing import List
 
 from app.database.db import get_db
 from app.models.ORM_Producto import Producto as ORMProducto
-from app.schemas.Producto import Producto, ProductoCreate
+from app.schemas.Producto import Producto, ProductoCreate, ProductoUpdate
 from backend.auth import get_current_user
 
 router = APIRouter(
@@ -46,10 +46,41 @@ def crear_producto(
     db.refresh(db_producto)                       # Actualiza el objeto con valores generados automáticamente (como id)
     return db_producto                            # Devuelve el producto creado al cliente
 
+#Ia #
+@router.put("/{producto_id}", response_model=Producto)
+def actualizar_producto(
+    producto_id: int,
+    producto_update: ProductoUpdate, # Usamos ProductoUpdate para la actualización
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    db_producto = db.get(ORMProducto, producto_id)
+    if db_producto is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Producto no encontrado :("
+        )
+    
+    for key, value in producto_update.dict(exclude_unset=True).items():
+        setattr(db_producto, key, value)
+    
+    db.commit()
+    db.refresh(db_producto)
+    return db_producto
 
-@router.put("/{producto_id}")
-def actualizar_producto(producto_id):
-    return {"mensaje": "Servidor funcionando y ruta de productos actualizar OK"}
-@router.delete("/{producto_id}")
-def eliminar_producto(producto_id):
-    return {"mensaje": "Servidor funcionando y ruta de productos eliminar OK"}
+@router.delete("/{producto_id}", status_code=status.HTTP_204_NO_CONTENT)
+def eliminar_producto(
+    producto_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    db_producto = db.get(ORMProducto, producto_id)
+    if db_producto is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Producto no encontrado :("
+        )
+    
+    db.delete(db_producto)
+    db.commit()
+    return {"mensaje": "Producto eliminado exitosamente"}
