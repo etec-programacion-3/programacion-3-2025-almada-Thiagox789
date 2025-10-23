@@ -7,7 +7,7 @@ from typing import List
 from app.database.db import get_db
 from app.models.ORM_Producto import Producto as ORMProducto
 from app.schemas.Producto import Producto, ProductoCreate, ProductoUpdate
-from backend.auth import get_current_user
+from auth import Obtener_Ususario_Actual
 
 router = APIRouter(
     prefix="/productos",
@@ -38,7 +38,7 @@ def leer_producto_por_id(
 def crear_producto(
     producto: ProductoCreate,                     # Recibe los datos del producto en formato JSON según el esquema ProductoCreate
     db: Session = Depends(get_db),                # Conectarse a la base de datos
-    current_user: dict = Depends(get_current_user) # Verifica que el usuario esté autenticado
+    current_user: dict = Depends(Obtener_Ususario_Actual) # Verifica que el usuario esté autenticado
 ):
     db_producto = ORMProducto(**producto.dict())  # Crea un objeto ORMProducto con los datos recibidos
     db.add(db_producto)                           # Agrega el producto a la sesión de la base de datos
@@ -52,7 +52,7 @@ def actualizar_producto(
     producto_id: int,
     producto_update: ProductoUpdate, # Usamos ProductoUpdate para la actualización
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(Obtener_Ususario_Actual)
 ):
     db_producto = db.get(ORMProducto, producto_id)
     if db_producto is None:
@@ -72,7 +72,7 @@ def actualizar_producto(
 def eliminar_producto(
     producto_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(Obtener_Ususario_Actual)
 ):
     db_producto = db.get(ORMProducto, producto_id)
     if db_producto is None:

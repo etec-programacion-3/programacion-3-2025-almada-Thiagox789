@@ -3,7 +3,7 @@ POST http://localhost:8000/auth/register
 Content-Type: application/json
 
 {
-    "email_usuario": "http.user1@example.com",
+    "email_usuario": "http123.user1@example.com",
     "nombre_usuario": "HTTP",
     "apellido_usuario": "User",
     "password": "httppassword"
@@ -14,11 +14,11 @@ POST http://localhost:8000/auth/login
 Content-Type: application/json
 
 {
-    "email_usuario": "http.user1@example.com",
+    "email_usuario": "http123.user1@example.com",
     "password": "httppassword"
 }
 
 ### Acceder a una Ruta Protegida
 ### Acceder a una Ruta Protegida
 GET http://localhost:8000/auth/protected
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwLnVzZXIxQGV4YW1wbGUuY29tIiwiZXhwIjoxNzYwMTI5NzMyfQ.P1IA6tsBurPgrKRtPtsBCdxHD5OVEV9CiZlOUvCsEjI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJodHRwMTIzLnVzZXIxQGV4YW1wbGUuY29tIiwiZXhwIjoxNzYxMjQ5MDc4fQ.Zi5M8sqh7BjgxdppUHGVdXCYong-MXSg-JW9-at1lco
