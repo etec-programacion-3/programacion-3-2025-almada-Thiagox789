@@ -1,6 +1,6 @@
 import './App.css'
 import { Routes, Route, Link } from 'react-router-dom';
-import Inicio from './components/Inicio';
+import HomePage from './components/HomePage';
 import Productos from './components/Productos';
 import Login from './components/Login';
 import Carrito from './components/Carrito';
@@ -10,7 +10,7 @@ function App() {
     <>
       <nav>
         <ul>
-          <li><Link to="/">Inico</Link></li>
+          <li><Link to="/">Home</Link></li>
           <li><Link to="/Productos">Productos</Link></li>
           <li><Link to="/Login">Login</Link></li>
           <li><Link to="/Carrito">Carrito</Link></li>
@@ -18,7 +18,7 @@ function App() {
       </nav>
 
       <Routes>
-        <Route path="/" element={<Inicio />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/Productos" element={<Productos />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Carrito" element={<Carrito />} />
