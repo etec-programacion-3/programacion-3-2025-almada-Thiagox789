@@ -1,3 +1,5 @@
+from pydantic import BaseModel
+
 class ProductoBase(BaseModel):
     nombre_producto: str
     descripcion_producto: str

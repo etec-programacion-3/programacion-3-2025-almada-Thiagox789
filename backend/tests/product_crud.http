@@ -1,0 +1,55 @@
+### Register a test user (run once)
+POST http://127.0.0.1:8000/auth/register
+Content-Type: application/json
+
+{
+  "email_usuario": "test1122@example.com",
+  "nombre_usuario": "Test",
+  "apellido_usuario": "User",
+  "password": "testpassword"
+}
+
+### Get an authentication token
+POST http://127.0.0.1:8000/auth/login
+Content-Type: application/json
+
+{
+  "email_usuario": "test1122@example.com",
+  "password": "testpassword"
+}
+### @name login
+
+### Create a new product
+POST http://127.0.0.1:8000/productos
+Content-Type: application/json
+Authorization: Bearer .eyJzdWIiOiJ0ZXN0MTEyMkBleGFtcGxlLmNvbSIsImV4cCI6MTc2MTI0OTMxNn0.vEA-lsq4ZWhxZ97iqvoRjw4ubh8eeXNvDFhDGR8gMM4
+
+{
+  "nombre_producto": "Laptop1312313 Gamer",
+  "descripcion_producto": "Po123123tente laptop para juegos",
+  "cantidad_producto": 1220,
+  "precio_producto": 1200.00
+}
+
+### Get all products
+GET http://127.0.0.1:8000/productos
+Content-Type: application/json
+
+### Get product by ID
+GET http://127.0.0.1:8000/productos/2
+Content-Type: application/json
+
+### Update a product by ID
+PUT http://127.0.0.1:8000/productos/1
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.access_token}}
+
+{
+  "nombre_producto": "Laptop Gamer Pro",
+  "precio_producto": 1350.00
+}
+
+### Delete a product by ID
+DELETE http://127.0.0.1:8000/productos/1
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.access_token}}
