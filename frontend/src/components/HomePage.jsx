@@ -11,7 +11,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/products'); // Assuming backend runs on port 8000
+        const response = await axios.get('http://localhost:8000/products/'); // Assuming backend runs on port 8000
         setProducts(response.data);
         setLoading(false);
       } catch (err) {
