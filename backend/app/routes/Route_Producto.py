@@ -10,8 +10,8 @@ from app.schemas.Producto import Producto, ProductoCreate, ProductoUpdate
 from auth import Obtener_Ususario_Actual
 
 router = APIRouter(
-    prefix="/productos",
-    tags=["productos"]
+    prefix="/products",
+    tags=["products"]
 )
 
 # Endpoint para listar todos los productos (sin autenticación)
