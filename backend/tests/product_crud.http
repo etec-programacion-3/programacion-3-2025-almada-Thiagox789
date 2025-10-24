@@ -20,29 +20,29 @@ Content-Type: application/json
 ### @name login
 
 ### Create a new product
-POST http://127.0.0.1:8000/productos
+POST http://127.0.0.1:8000/products
 Content-Type: application/json
-Authorization: Bearer .eyJzdWIiOiJ0ZXN0MTEyMkBleGFtcGxlLmNvbSIsImV4cCI6MTc2MTI0OTMxNn0.vEA-lsq4ZWhxZ97iqvoRjw4ubh8eeXNvDFhDGR8gMM4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MTEyMkBleGFtcGxlLmNvbSIsImV4cCI6MTc2MTMxNzE0MH0.lxtwQUnRc-ytkg1zQegzWtPTPbjC_FFJlbMrEKL9pCY
 
 {
-  "nombre_producto": "Laptop1312313 Gamer",
-  "descripcion_producto": "Po123123tente laptop para juegos",
+  "nombre_producto": "VODKOBICH ",
+  "descripcion_producto": "PARA EL APPIO",
   "cantidad_producto": 1220,
   "precio_producto": 1200.00
 }
 
 ### Get all products
-GET http://127.0.0.1:8000/productos
+GET http://127.0.0.1:8000/products
 Content-Type: application/json
 
 ### Get product by ID
-GET http://127.0.0.1:8000/productos/2
+GET http://127.0.0.1:8000/products/4
 Content-Type: application/json
 
 ### Update a product by ID
-PUT http://127.0.0.1:8000/productos/1
+PUT http://127.0.0.1:8000/products/1
 Content-Type: application/json
-Authorization: Bearer {{login.response.body.access_token}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MTEyMkBleGFtcGxlLmNvbSIsImV4cCI6MTc2MTMxNzE0MH0.lxtwQUnRc-ytkg1zQegzWtPTPbjC_FFJlbMrEKL9pCY
 
 {
   "nombre_producto": "Laptop Gamer Pro",
@@ -50,6 +50,6 @@ Authorization: Bearer {{login.response.body.access_token}}
 }
 
 ### Delete a product by ID
-DELETE http://127.0.0.1:8000/productos/1
+DELETE http://127.0.0.1:8000/products/2
 Content-Type: application/json
-Authorization: Bearer {{login.response.body.access_token}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MTEyMkBleGFtcGxlLmNvbSIsImV4cCI6MTc2MTMxNzE0MH0.lxtwQUnRc-ytkg1zQegzWtPTPbjC_FFJlbMrEKL9pCY
