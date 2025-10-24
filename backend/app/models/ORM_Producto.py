@@ -9,3 +9,4 @@ class Producto(Base): # Renombrado a Producto para mayor claridad
     descripcion_producto = Column(String, index=True) 
     cantidad_producto = Column(Integer, index=True)
     precio_producto = Column(Float, index=True)
+    image_url = Column(String, nullable=True)
