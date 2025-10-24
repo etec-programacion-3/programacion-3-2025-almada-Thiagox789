@@ -4,7 +4,7 @@ import HomePage from './components/HomePage';
 import Productos from './components/Productos';
 import Login from './components/Login';
 import Carrito from './components/Carrito';
-
+import ProductDetailPage from './components/ProductDetailPage';
 function App() {
   return (
     <>
@@ -22,6 +22,7 @@ function App() {
         <Route path="/Productos" element={<Productos />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Carrito" element={<Carrito />} />
+        <Route path="/products/:id" element={<ProductDetailPage />} />
       </Routes>
     </>
   )
