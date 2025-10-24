@@ -24,5 +24,9 @@ app.add_middleware(
 # Crear las tablas en la base de datos
 Base.metadata.create_all(bind=engine)
 
+@app.get("/")
+def read_root():
+    return {"message": "Bienvenido a la API de Mundo Deporte"}
+
 app.include_router(producto_router)
 app.include_router(auth_router)
