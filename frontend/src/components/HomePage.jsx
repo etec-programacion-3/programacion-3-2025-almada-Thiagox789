@@ -33,7 +33,7 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
-      <h1>Our Products</h1>
+      <h1>Nuestros Productos</h1>
       <div className="product-list">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />

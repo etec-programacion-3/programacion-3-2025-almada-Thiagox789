@@ -72,11 +72,11 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "nombre_producto": "Producto de prueba",
-  "descripcion_producto": "Esta es una descripción de prueba.",
+  "nombre_producto": "Pongase serio ciervo",
+  "descripcion_producto": "Prueba poniendo imagenes.",
   "precio_producto": 19.99,
   "cantidad_producto": 100,
-  "image_url": "http://example.com/image.jpg"
+  "image_url": "https://st2.depositphotos.com/6587396/9405/i/950/depositphotos_94055318-stock-photo-face-of-female-deer.jpg"
 }
 
 ###
@@ -94,6 +94,6 @@ Content-Type: application/json
 ###
 
 # Eliminar un producto (con autenticación)
-DELETE {{hostname}}/products/1
+DELETE {{hostname}}/products/4
 Authorization: Bearer {{token}}
 Content-Type: application/json
