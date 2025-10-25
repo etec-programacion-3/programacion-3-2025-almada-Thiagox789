@@ -16,8 +16,13 @@ const Login = () => {
 
     const onSubmit = async e => {
         e.preventDefault();
-        await login(email, password);
-        navigate('/'); // Redirige al usuario a la página de inicio después de iniciar sesión
+        const success = await login(email, password);
+        if (success) {
+            navigate('/'); // Redirige al usuario a la página de inicio después de iniciar sesión
+        } else {
+            // Opcional: mostrar un mensaje de error al usuario
+            alert('Credenciales inválidas. Por favor, inténtalo de nuevo.');
+        }
     };
 
     return (

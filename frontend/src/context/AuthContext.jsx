@@ -41,9 +41,16 @@ export const AuthProvider = ({ children }) => {
                 isAuthenticated: true,
                 user: { email }
             });
+            return true; // Indicar éxito
         } catch (error) {
             console.error('Error al iniciar sesión:', error);
-            // Manejar el error, por ejemplo, mostrando un mensaje al usuario
+            localStorage.removeItem('token'); // Asegurarse de que no haya un token inválido
+            setAuth({
+                token: null,
+                isAuthenticated: false,
+                user: null
+            });
+            return false; // Indicar fallo
         }
     };
 

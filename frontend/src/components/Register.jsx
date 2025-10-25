@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -30,9 +31,11 @@ const Register = () => {
             const body = JSON.stringify(newUser);
             const res = await axios.post('http://localhost:8000/auth/register', body, config);
             console.log(res.data);
-            // Aquí podrías redirigir al usuario a la página de login
+            alert('Registro exitoso. Por favor, inicia sesión.');
+            navigate('/login');
         } catch (err) {
             console.error(err.response.data);
+            alert(err.response.data.detail || 'Error en el registro. Inténtalo de nuevo.');
         }
     };
 
