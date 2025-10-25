@@ -1,0 +1,99 @@
+@hostname = http://127.0.0.1:8000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlckBleGFtcGxlLmNvbSIsImV4cCI6MTc2MTM1ODY3M30.ExqCX72qWAdMMiVGK9saFI091GwazyG7l2IhLIHUzAg
+
+###
+# Rutas de prueba
+###
+
+# Obtener mensaje de prueba
+GET {{hostname}}/prueba/
+Content-Type: application/json
+
+###
+
+# Obtener otro mensaje de prueba
+GET {{hostname}}/prueba/probando/otras/barras
+Content-Type: application/json
+
+###
+# Rutas de autenticación
+###
+
+# Registrar un nuevo usuario
+POST {{hostname}}/auth/register
+Content-Type: application/json
+
+{
+  "email_usuario": "testuser@example.com",
+  "nombre_usuario": "test",
+  "apellido_usuario": "user",
+  "password": "testpassword"
+}
+
+###
+
+# Iniciar sesión para obtener token
+# @name login
+POST {{hostname}}/auth/login
+Content-Type: application/json
+
+{
+  "email_usuario": "testuser@example.com",
+  "password": "testpassword"
+}
+
+###
+@token = {{login.response.body.access_token}}
+
+# Acceder a una ruta protegida
+GET {{hostname}}/auth/protected
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+# Rutas de productos
+###
+
+# Obtener todos los productos (sin autenticación)
+GET {{hostname}}/products/
+Content-Type: application/json
+
+###
+
+# Obtener un producto por ID (sin autenticación)
+GET {{hostname}}/products/1
+Content-Type: application/json
+
+###
+
+# Crear un nuevo producto (con autenticación)
+POST {{hostname}}/products/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre_producto": "Producto de prueba",
+  "descripcion_producto": "Esta es una descripción de prueba.",
+  "precio_producto": 19.99,
+  "cantidad_producto": 100,
+  "image_url": "http://example.com/image.jpg"
+}
+
+###
+
+# Actualizar un producto (con autenticación)
+PUT {{hostname}}/products/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre_producto": "Producto de prueba actualizado",
+  "precio_producto": 29.99
+}
+
+###
+
+# Eliminar un producto (con autenticación)
+DELETE {{hostname}}/products/1
+Authorization: Bearer {{token}}
+Content-Type: application/json

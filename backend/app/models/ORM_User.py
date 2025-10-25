@@ -1,5 +1,5 @@
 from sqlalchemy import *
-from app.database.db import Base
+from ..database.db import Base
 
 
 class Usuario(Base): # Renombrado a Usuario para mayor claridad
@@ -9,4 +9,4 @@ class Usuario(Base): # Renombrado a Usuario para mayor claridad
     nombre_usuario = Column(String, index=True) 
     apellido_usuario = Column(String, index=True) 
     email_usuario = Column(String, unique=True, index=True) 
-    hashed_password = Column(String, index=True) 
+    hashed_password = Column(String, index=True)
