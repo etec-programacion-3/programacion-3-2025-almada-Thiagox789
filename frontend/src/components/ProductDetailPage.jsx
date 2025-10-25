@@ -46,7 +46,8 @@ const ProductDetailPage = () => {
                 <p><strong>Precio:</strong> <span className="product-detail-price">${product.precio_producto}</span></p>
                 <p><strong>Cantidad disponible:</strong> {product.cantidad_producto}</p>
             </div>
-            {/* Add more product details as needed */}
+                    <img src={product.image_url}/>
+
         </div>
     );
 };
