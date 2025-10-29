@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import './AuthForms.css'; // Import the new CSS file
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -26,30 +27,38 @@ const Login = () => {
     };
 
     return (
-        <form onSubmit={onSubmit}>
-            <div>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    name="email"
-                    value={email}
-                    onChange={onChange}
-                    required
-                />
-            </div>
-            <div>
-                <input
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    value={password}
-                    onChange={onChange}
-                    minLength="6"
-                    required
-                />
-            </div>
-            <input type="submit" value="Login" />
-        </form>
+        <div className="auth-container">
+            <form className="auth-form" onSubmit={onSubmit}>
+                <h2>Login</h2>
+                <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Ingresa tu email"
+                        name="email"
+                        value={email}
+                        onChange={onChange}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Contraseña</label>
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Ingresa tu contraseña"
+                        name="password"
+                        value={password}
+                        onChange={onChange}
+                        minLength="6"
+                        required
+                    />
+                </div>
+                <button type="submit">Login</button>
+                <Link to="/register" className="switch-link">No tienes una cuenta? Regístrate aquí</Link>
+            </form>
+        </div>
     );
 };
 
