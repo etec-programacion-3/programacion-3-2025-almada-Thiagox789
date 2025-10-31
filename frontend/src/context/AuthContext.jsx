@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
                 isAuthenticated: true,
                 user: { email }
             });
-            return true; // Indicar éxito
+            return { success: true }; // Indicar éxito
         } catch (error) {
             console.error('Error al iniciar sesión:', error);
             localStorage.removeItem('token'); // Asegurarse de que no haya un token inválido
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
                 isAuthenticated: false,
                 user: null
             });
-            return false; // Indicar fallo
+            return { success: false, message: error.response?.data?.detail || 'Credenciales inválidas. Por favor, inténtalo de nuevo.' }; // Indicar fallo y mensaje de error
         }
     };
 

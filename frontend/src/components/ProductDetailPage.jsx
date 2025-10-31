@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useCart } from '../context/CartContext.jsx';
 
 const ProductDetailPage = () => {
     const { id } = useParams();
+    const { dispatch } = useCart();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [quantityToAdd, setQuantityToAdd] = useState(1);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -25,6 +28,18 @@ const ProductDetailPage = () => {
             fetchProduct();
         }
     }, [id]);
+
+    const handleAddToCart = () => {
+        if (product && quantityToAdd > 0 && quantityToAdd <= product.cantidad_producto) {
+            dispatch({
+                type: 'ADD_ITEM',
+                payload: { product: product, quantity: quantityToAdd },
+            });
+            alert(`${quantityToAdd} de ${product.nombre_producto} añadido al carrito!`);
+        } else {
+            alert('Por favor, introduce una cantidad válida.');
+        }
+    };
 
     if (loading) {
         return <div>Cargando producto...</div>;
@@ -46,8 +61,19 @@ const ProductDetailPage = () => {
                 <p><strong>Precio:</strong> <span className="product-detail-price">${product.precio_producto}</span></p>
                 <p><strong>Cantidad disponible:</strong> {product.cantidad_producto}</p>
             </div>
-                    <img src={product.image_url}/>
-
+            <img src={product.image_url}/>
+            <div className="add-to-cart-section">
+                <input
+                    type="number"
+                    min="1"
+                    value={quantityToAdd}
+                    onChange={(e) => setQuantityToAdd(parseInt(e.target.value))}
+                    className="quantity-input"
+                />
+                <button onClick={handleAddToCart} className="add-to-cart-button">
+                    Añadir al Carrito
+                </button>
+            </div>
         </div>
     );
 };

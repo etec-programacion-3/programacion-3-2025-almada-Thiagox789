@@ -79,3 +79,10 @@
 .auth-form .switch-link:hover {
   text-decoration: underline;
 }
+
+.error-message {
+  color: #ff0000; /* Red color for error messages */
+  margin-top: 15px;
+  font-size: 0.9em;
+  font-weight: bold;
+}

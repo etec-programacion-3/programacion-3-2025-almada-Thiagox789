@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Carrito from './components/Carrito';
 import ProductDetailPage from './components/ProductDetailPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const { isAuthenticated, user, logout } = useContext(AuthContext);
@@ -16,30 +17,58 @@ function App() {
     <>
       <nav>
         <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/Productos">Productos</Link></li>
           {isAuthenticated ? (
             <>
+              <li><Link to="/">Inicio</Link></li>
+              <li><Link to="/Productos">Productos</Link></li>
+              <li><Link to="/Carrito">Carrito</Link></li>
               <li><span>{user && user.email}</span></li>
-              <li><button onClick={logout}>Logout</button></li>
+              <li><button onClick={logout}>Cerrar Sesion</button></li>
             </>
           ) : (
             <>
-              <li><Link to="/login">Login</Link></li>
-              <li><Link to="/register">Register</Link></li>
+              <li><Link to="/login">Inicia Sesion</Link></li>
+              <li><Link to="/register">Registrate</Link></li>
             </>
           )}
-          <li><Link to="/Carrito">Carrito</Link></li>
         </ul>
       </nav>
 
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/Productos" element={<Productos />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/Carrito" element={<Carrito />} />
-        <Route path="/products/:id" element={<ProductDetailPage />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/Productos"
+          element={
+            <ProtectedRoute>
+              <Productos />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/Carrito"
+          element={
+            <ProtectedRoute>
+              <Carrito />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/:id"
+          element={
+            <ProtectedRoute>
+              <ProductDetailPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   )
