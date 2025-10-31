@@ -10,6 +10,7 @@ const Login = () => {
     });
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [loginError, setLoginError] = useState(null); // State to hold login error message
 
     const { email, password } = formData;
 
@@ -17,12 +18,12 @@ const Login = () => {
 
     const onSubmit = async e => {
         e.preventDefault();
-        const success = await login(email, password);
-        if (success) {
+        setLoginError(null); // Clear previous errors
+        const result = await login(email, password);
+        if (result.success) {
             navigate('/'); // Redirige al usuario a la página de inicio después de iniciar sesión
         } else {
-            // Opcional: mostrar un mensaje de error al usuario
-            alert('Credenciales inválidas. Por favor, inténtalo de nuevo.');
+            setLoginError(result.message); // Display error message from backend or default
         }
     };
 
@@ -56,6 +57,7 @@ const Login = () => {
                     />
                 </div>
                 <button type="submit">Login</button>
+                {loginError && <p className="error-message">{loginError}</p>} {/* Display error message */}
                 <Link to="/register" className="switch-link">No tienes una cuenta? Regístrate aquí</Link>
             </form>
         </div>
