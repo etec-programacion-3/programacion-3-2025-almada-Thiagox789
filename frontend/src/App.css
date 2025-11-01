@@ -112,6 +112,19 @@ nav a:hover {
   margin-bottom: 40px;
 }
 
+.filter-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.filter-container input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
 .product-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Slightly larger cards */
