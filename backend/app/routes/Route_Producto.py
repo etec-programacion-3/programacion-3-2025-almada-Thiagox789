@@ -16,8 +16,18 @@ router = APIRouter(
 
 # Endpoint para listar todos los productos (sin autenticación)
 @router.get("/", response_model=List[Producto])
-def leer_productos(db: Session = Depends(get_db)): # Conectarse a la db
-    productos = db.query(ORMProducto).all() # Consulta todos los productos registrados en la db
+def leer_productos(
+    db: Session = Depends(get_db),
+    min_price: float = None,
+    max_price: float = None
+):
+    query = db.query(ORMProducto)
+    if min_price is not None:
+        query = query.filter(ORMProducto.precio_producto >= min_price)
+    if max_price is not None:
+        query = query.filter(ORMProducto.precio_producto <= max_price)
+    
+    productos = query.all()
     return productos
 
 # Endpoint para obtener un producto por ID (sin autenticación)
