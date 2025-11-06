@@ -61,7 +61,9 @@ const ProductDetailPage = () => {
                 <p><strong>Precio:</strong> <span className="product-detail-price">${product.precio_producto}</span></p>
                 <p><strong>Cantidad disponible:</strong> {product.cantidad_producto}</p>
             </div>
-            <img src={product.image_url}/>
+            <div className="product-detail-image-container">
+                <img src={product.image_url} alt={product.nombre_producto} />
+            </div>
             <div className="add-to-cart-section">
                 <input
                     type="number"
