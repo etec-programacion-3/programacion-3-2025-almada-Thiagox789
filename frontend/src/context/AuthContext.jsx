@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
             setAuth({
                 token: token,
                 isAuthenticated: true,
-                user: { email: 'user@example.com' } // Deberías obtener esto del backend
+                user: null // User data should be fetched from backend, not hardcoded
             });
         } else {
             setAuth({

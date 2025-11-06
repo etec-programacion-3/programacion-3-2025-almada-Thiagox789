@@ -1,8 +1,27 @@
 import React from 'react';
 import { useCart } from '../context/CartContext.jsx';
+import axios from 'axios';
 
 function Carrito() {
   const { cartState, dispatch } = useCart();
+
+  const handleCheckout = async () => {
+    if (window.confirm('¿Estás seguro de que quieres proceder al pago?')) {
+      try {
+        const promises = cartState.items.map(item =>
+          axios.put(`http://localhost:8000/products/${item.product.id_producto}/stock`, {
+            quantity: item.quantity
+          })
+        );
+        await Promise.all(promises);
+        dispatch({ type: 'CLEAR_CART' });
+        alert('¡Pago realizado con éxito!');
+      } catch (error) {
+        console.error('Error al actualizar el stock:', error);
+        alert('Hubo un error al procesar tu pedido. Por favor, inténtalo de nuevo.');
+      }
+    }
+  };
 
   const handleRemoveItem = (productId) => {
     dispatch({ type: 'REMOVE_ITEM', payload: productId });
@@ -53,7 +72,7 @@ function Carrito() {
           ))}
           <div className="cart-summary">
             <h2>Total: ${calculateTotal()}</h2>
-            <button className="checkout-button">Proceder al Pago</button>
+            <button className="checkout-button" onClick={handleCheckout}>Proceder al Pago</button>
           </div>
         </div>
       )}

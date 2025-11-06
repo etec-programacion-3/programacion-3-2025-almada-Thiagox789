@@ -61,18 +61,27 @@ const ProductDetailPage = () => {
                 <p><strong>Precio:</strong> <span className="product-detail-price">${product.precio_producto}</span></p>
                 <p><strong>Cantidad disponible:</strong> {product.cantidad_producto}</p>
             </div>
-            <img src={product.image_url}/>
+            <div className="product-detail-image-container">
+                <img src={product.image_url} alt={product.nombre_producto} />
+            </div>
             <div className="add-to-cart-section">
-                <input
-                    type="number"
-                    min="1"
-                    value={quantityToAdd}
-                    onChange={(e) => setQuantityToAdd(parseInt(e.target.value))}
-                    className="quantity-input"
-                />
-                <button onClick={handleAddToCart} className="add-to-cart-button">
-                    Añadir al Carrito
-                </button>
+                {product.cantidad_producto > 0 ? (
+                    <>
+                        <input
+                            type="number"
+                            min="1"
+                            max={product.cantidad_producto}
+                            value={quantityToAdd}
+                            onChange={(e) => setQuantityToAdd(parseInt(e.target.value))}
+                            className="quantity-input"
+                        />
+                        <button onClick={handleAddToCart} className="add-to-cart-button">
+                            Añadir al Carrito
+                        </button>
+                    </>
+                ) : (
+                    <p className="out-of-stock-message">Sin stock</p>
+                )}
             </div>
         </div>
     );
