@@ -1,6 +1,7 @@
 # backend/app/routes/Route_Producto.py
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -94,3 +95,30 @@ def eliminar_producto(
     db.delete(db_producto)
     db.commit()
     return {"mensaje": "Producto eliminado exitosamente"}
+
+class StockUpdate(BaseModel):
+    quantity: int
+
+@router.put("/{producto_id}/stock", response_model=Producto)
+def actualizar_stock(
+    producto_id: int,
+    stock_update: StockUpdate,
+    db: Session = Depends(get_db)
+):
+    db_producto = db.get(ORMProducto, producto_id)
+    if db_producto is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Producto no encontrado :("
+        )
+    
+    if db_producto.cantidad_producto < stock_update.quantity:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No hay suficiente stock para completar la compra."
+        )
+    
+    db_producto.cantidad_producto -= stock_update.quantity
+    db.commit()
+    db.refresh(db_producto)
+    return db_producto
