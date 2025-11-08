@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './AuthForms.css';
 
 const CrearProducto = () => {
     const [nombre, setNombre] = useState('');
@@ -48,26 +49,26 @@ const CrearProducto = () => {
     };
 
     return (
-        <div>
-            <h2>Crear Nuevo Producto</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
+        <div className="auth-container">
+            <form className="auth-form" onSubmit={handleSubmit}>
+                <h2>Crear Nuevo Producto</h2>
+                <div className="form-group">
                     <label>Nombre:</label>
                     <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
                 </div>
-                <div>
+                <div className="form-group">
                     <label>Descripción:</label>
                     <textarea value={descripcion} onChange={(e) => setDescripcion(e.target.value)} required />
                 </div>
-                <div>
+                <div className="form-group">
                     <label>Cantidad:</label>
                     <input type="number" value={cantidad} onChange={(e) => setCantidad(e.target.value)} required />
                 </div>
-                <div>
+                <div className="form-group">
                     <label>Precio:</label>
                     <input type="number" step="0.01" value={precio} onChange={(e) => setPrecio(e.target.value)} required />
                 </div>
-                <div>
+                <div className="form-group">
                     <label>URL de la Imagen:</label>
                     <input type="text" value={imagen} onChange={(e) => setImagen(e.target.value)} />
                 </div>
