@@ -9,6 +9,7 @@ import Register from './components/Register';
 import Carrito from './components/Carrito';
 import ProductDetailPage from './components/ProductDetailPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import CrearProducto from './components/CrearProducto';
 
 function App() {
   const { isAuthenticated, user, logout } = useContext(AuthContext);
@@ -21,6 +22,7 @@ function App() {
             <>
               <li><Link to="/">Inicio</Link></li>
               <li><Link to="/Productos">Productos</Link></li>
+              <li><Link to="/crear-producto">Crear Producto</Link></li>
               <li><Link to="/Carrito">Carrito</Link></li>
               <li><span>{user && user.email}</span></li>
               <li><button onClick={logout}>Cerrar Sesion</button></li>
@@ -66,6 +68,14 @@ function App() {
           element={
             <ProtectedRoute>
               <ProductDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/crear-producto"
+          element={
+            <ProtectedRoute>
+              <CrearProducto />
             </ProtectedRoute>
           }
         />
