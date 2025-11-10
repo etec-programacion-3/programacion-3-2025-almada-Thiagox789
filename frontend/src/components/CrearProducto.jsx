@@ -49,7 +49,7 @@ const CrearProducto = () => {
     };
 
     return (
-        <div className="auth-container">
+        <div className="container auth-container">
             <form className="auth-form" onSubmit={handleSubmit}>
                 <h2>Crear Nuevo Producto</h2>
                 <div className="form-group">

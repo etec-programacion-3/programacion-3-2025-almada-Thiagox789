@@ -17,23 +17,28 @@ function App() {
   return (
     <>
       <nav>
-        <ul>
-          {isAuthenticated ? (
-            <>
-              <li><Link to="/">Inicio</Link></li>
-              <li><Link to="/Productos">Productos</Link></li>
-              <li><Link to="/crear-producto">Crear Producto</Link></li>
-              <li><Link to="/Carrito">Carrito</Link></li>
-              <li><span>{user && user.email}</span></li>
-              <li><button onClick={logout}>Cerrar Sesion</button></li>
-            </>
-          ) : (
-            <>
-              <li><Link to="/login">Inicia Sesion</Link></li>
-              <li><Link to="/register">Registrate</Link></li>
-            </>
-          )}
-        </ul>
+        <div className="container nav-bar">
+          <div className="nav-left">
+            <Link to="/" className="logo">MiTienda</Link>
+          </div>
+          <ul className="nav-list">
+            {isAuthenticated ? (
+              <>
+                <li><Link to="/">Inicio</Link></li>
+                {/* Removed Productos link as requested */}
+                <li><Link to="/crear-producto">Crear Producto</Link></li>
+                <li><Link to="/Carrito">Carrito</Link></li>
+                <li className="nav-user"><span>{user && user.email}</span></li>
+                <li><button className="link-button" onClick={logout}>Cerrar Sesión</button></li>
+              </>
+            ) : (
+              <>
+                <li><Link to="/login">Inicia Sesión</Link></li>
+                <li><Link to="/register">Regístrate</Link></li>
+              </>
+            )}
+          </ul>
+        </div>
       </nav>
 
       <Routes>

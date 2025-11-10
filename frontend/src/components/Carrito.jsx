@@ -41,7 +41,7 @@ function Carrito() {
   };
 
   return (
-    <div className="cart-container">
+    <div className="container cart-container">
       <h1>Tu Carrito de Compras</h1>
       {cartState.items.length === 0 ? (
         <p>El carrito está vacío.</p>

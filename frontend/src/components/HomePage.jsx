@@ -16,7 +16,7 @@ const HomePage = () => {
       const params = new URLSearchParams();
       if (minPrice) params.append('min_price', minPrice);
       if (maxPrice) params.append('max_price', maxPrice);
-      
+
       const response = await axios.get(`http://localhost:8000/products/`, { params });
       setProducts(response.data);
     } catch (err) {
@@ -28,6 +28,7 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleFilter = () => {
@@ -39,23 +40,28 @@ const HomePage = () => {
   }
 
   return (
-    <div className="home-page">
-      <h1>Nuestros Productos</h1>
-      <div className="filter-container">
-        <input
-          type="number"
-          value={minPrice}
-          onChange={(e) => setMinPrice(e.target.value)}
-          placeholder="Precio Mínimo"
-        />
-        <input
-          type="number"
-          value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
-          placeholder="Precio Máximo"
-        />
-        <button onClick={handleFilter}>Filtrar</button>
+    <div className="container home-page">
+      <div className="page-header">
+        <h1>Nuestros Productos</h1>
+        <div className="filter-container">
+          <input
+            type="number"
+            value={minPrice}
+            onChange={(e) => setMinPrice(e.target.value)}
+            placeholder="Precio Mínimo"
+            className="filter-input"
+          />
+          <input
+            type="number"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+            placeholder="Precio Máximo"
+            className="filter-input"
+          />
+          <button className="filter-button" onClick={handleFilter}>Filtrar</button>
+        </div>
       </div>
+
       {loading ? (
         <div>Loading products...</div>
       ) : (

@@ -54,7 +54,7 @@ const ProductDetailPage = () => {
     }
 
     return (
-        <div className="product-detail-container">
+        <div className="container product-detail-container">
             <div className="product-detail-image-container">
                 <img src={product.image_url} alt={product.nombre_producto} />
             </div>
