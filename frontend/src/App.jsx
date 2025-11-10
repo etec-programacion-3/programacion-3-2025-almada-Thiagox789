@@ -1,6 +1,6 @@
 import './App.css'
 import { Routes, Route, Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from './context/AuthContext';
 import HomePage from './components/HomePage';
 import Productos from './components/Productos';
@@ -14,18 +14,19 @@ import CrearProducto from './components/CrearProducto';
 function App() {
   const { isAuthenticated, user, logout } = useContext(AuthContext);
 
+
   return (
     <>
       <nav>
         <div className="container nav-bar">
           <div className="nav-left">
-            <Link to="/" className="logo">MiTienda</Link>
+            <Link to="/" className="logo">Mundo Deporte</Link>
           </div>
+
           <ul className="nav-list">
             {isAuthenticated ? (
               <>
                 <li><Link to="/">Inicio</Link></li>
-                {/* Removed Productos link as requested */}
                 <li><Link to="/crear-producto">Crear Producto</Link></li>
                 <li><Link to="/Carrito">Carrito</Link></li>
                 <li className="nav-user"><span>{user && user.email}</span></li>

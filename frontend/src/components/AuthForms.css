@@ -38,40 +38,47 @@
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group input[type="password"],
-.form-group textarea {
+.form-group input[type="number"],
+.form-group textarea,
+.form-group select {
   width: 100%;
   padding: 12px 15px;
-  border: 1px solid #ced4da;
-  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
   font-size: 1em;
   box-sizing: border-box;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background: #ffffff;
 }
 
 .form-group input[type="text"]:focus,
 .form-group input[type="email"]:focus,
 .form-group input[type="password"]:focus,
-.form-group textarea:focus {
+.form-group input[type="number"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
   border-color: var(--primary-color);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  box-shadow: 0 0 0 3px rgba(0, 105, 255, 0.1);
 }
 
 .auth-form button {
   width: 100%;
-  padding: 12px;
-  background-color: var(--primary-color);
+  padding: 14px;
+  background: linear-gradient(135deg, #000000, #333333);
   color: #ffffff;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1.1em;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s;
+  transition: all 0.3s ease;
 }
 
 .auth-form button:hover {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, #333333, #000000);
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 .auth-form .switch-link {

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useCart } from '../context/CartContext.jsx';
+import { useToast } from '../context/ToastContext.jsx';
 
 const ProductDetailPage = () => {
     const { id } = useParams();
     const { dispatch } = useCart();
+    const { addToast } = useToast();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -14,10 +16,11 @@ const ProductDetailPage = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/products/${id}`); // Assuming backend runs on port 8000
+                const response = await axios.get(`http://localhost:8000/products/${id}`);
                 setProduct(response.data);
             } catch (err) {
                 setError('Error al cargar el producto.');
+                addToast('Error al cargar el producto', 'error');
                 console.error(err);
             } finally {
                 setLoading(false);
@@ -27,7 +30,7 @@ const ProductDetailPage = () => {
         if (id) {
             fetchProduct();
         }
-    }, [id]);
+    }, [id, addToast]);
 
     const handleAddToCart = () => {
         if (product && quantityToAdd > 0 && quantityToAdd <= product.cantidad_producto) {
@@ -35,9 +38,9 @@ const ProductDetailPage = () => {
                 type: 'ADD_ITEM',
                 payload: { product: product, quantity: quantityToAdd },
             });
-            alert(`${quantityToAdd} de ${product.nombre_producto} añadido al carrito!`);
+            addToast(`${quantityToAdd} de ${product.nombre_producto} añadido al carrito!`, 'success');
         } else {
-            alert('Por favor, introduce una cantidad válida.');
+            addToast('Por favor, introduce una cantidad válida.', 'error');
         }
     };
 

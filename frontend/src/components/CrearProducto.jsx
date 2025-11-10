@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '../context/ToastContext.jsx';
 import './AuthForms.css';
 
 const CrearProducto = () => {
@@ -8,13 +9,15 @@ const CrearProducto = () => {
     const [cantidad, setCantidad] = useState('');
     const [precio, setPrecio] = useState('');
     const [imagen, setImagen] = useState('');
+
     const navigate = useNavigate();
+    const { addToast } = useToast();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('Debes iniciar sesión para crear un producto');
+            addToast('Debes iniciar sesión para crear un producto', 'error');
             navigate('/login');
             return;
         }
@@ -36,15 +39,15 @@ const CrearProducto = () => {
             });
 
             if (response.ok) {
-                alert('Producto creado exitosamente');
-                navigate('/productos');
+                addToast('Producto creado exitosamente', 'success');
+                navigate('/');
             } else {
                 const errorData = await response.json();
-                alert(`Error al crear el producto: ${errorData.detail}`);
+                addToast(`Error al crear el producto: ${errorData.detail}`, 'error');
             }
         } catch (error) {
             console.error('Error al crear el producto:', error);
-            alert('Ocurrió un error al crear el producto');
+            addToast('Ocurrió un error al crear el producto', 'error');
         }
     };
 
@@ -72,6 +75,7 @@ const CrearProducto = () => {
                     <label>URL de la Imagen:</label>
                     <input type="text" value={imagen} onChange={(e) => setImagen(e.target.value)} />
                 </div>
+
                 <button type="submit">Crear Producto</button>
             </form>
         </div>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
-import '../App.css'; // Assuming App.css contains some basic styling
+import { useToast } from '../context/ToastContext.jsx';
+import '../App.css';
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -9,6 +10,8 @@ const HomePage = () => {
   const [error, setError] = useState(null);
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+
+  const { addToast } = useToast();
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -21,6 +24,7 @@ const HomePage = () => {
       setProducts(response.data);
     } catch (err) {
       setError(err);
+      addToast('Error al cargar los productos', 'error');
     } finally {
       setLoading(false);
     }
@@ -35,6 +39,8 @@ const HomePage = () => {
     fetchProducts();
   };
 
+
+
   if (error) {
     return <div>Error: {error.message}</div>;
   }
@@ -42,8 +48,8 @@ const HomePage = () => {
   return (
     <div className="container home-page">
       <div className="page-header">
-        <h1>Nuestros Productos</h1>
-        <div className="filter-container">
+        <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Nuestros Productos</h1>
+        <div className="filter-container" style={{ justifyContent: 'flex-end' }}>
           <input
             type="number"
             value={minPrice}
@@ -63,12 +69,19 @@ const HomePage = () => {
       </div>
 
       {loading ? (
-        <div>Loading products...</div>
+        <div className="loading-spinner"></div>
       ) : (
         <div className="product-list">
-          {products.map((product) => (
-            <ProductCard key={product.id_producto} product={product} />
-          ))}
+          {products.length > 0 ? (
+            products.map((product) => (
+              <ProductCard key={product.id_producto} product={product} />
+            ))
+          ) : (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
+              <h3>No se encontraron productos</h3>
+              <p>Intenta ajustar tus filtros de búsqueda</p>
+            </div>
+          )}
         </div>
       )}
     </div>
