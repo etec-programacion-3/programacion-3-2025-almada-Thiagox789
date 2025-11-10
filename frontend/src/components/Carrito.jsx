@@ -10,14 +10,28 @@ function Carrito() {
   const handleCheckout = async () => {
     if (window.confirm('¿Estás seguro de que quieres proceder al pago?')) {
       try {
-        const promises = cartState.items.map(item =>
-          axios.put(`http://localhost:8000/products/${item.product.id_producto}/stock`, {
-            quantity: item.quantity
-          })
-        );
-        await Promise.all(promises);
-        dispatch({ type: 'CLEAR_CART' });
-        addToast('¡Pago realizado con éxito!', 'success');
+        const token = localStorage.getItem('token');
+        if (!token) {
+          addToast('Debes iniciar sesión para pagar', 'error');
+          return;
+        }
+
+        const items = cartState.items.map(item => ({
+          producto_id: item.product.id_producto || item.product.id,
+          cantidad: item.quantity
+        }));
+
+        const response = await axios.post('http://localhost:8000/purchases/', { items }, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        // Si la creación fue exitosa, limpiar carrito
+        if (response.status === 200 || response.status === 201) {
+          dispatch({ type: 'CLEAR_CART' });
+          addToast('¡Pago realizado con éxito!', 'success');
+        } else {
+          addToast('Hubo un problema al procesar la compra', 'error');
+        }
       } catch (error) {
         console.error('Error al actualizar el stock:', error);
         addToast('Hubo un error al procesar tu pedido. Por favor, inténtalo de nuevo.', 'error');
@@ -50,23 +64,23 @@ function Carrito() {
       ) : (
         <div className="cart-items">
           {cartState.items.map((item) => (
-            <div key={item.product.id} className="cart-item">
+            <div key={item.product.id_producto || item.product.id} className="cart-item">
               <img src={item.product.image_url} alt={item.product.nombre_producto} className="cart-item-image" />
               <div className="cart-item-details">
                 <h3>{item.product.nombre_producto}</h3>
                 <p>Precio: ${item.product.precio_producto}</p>
                 <div className="cart-item-quantity-control">
-                  <button onClick={() => handleUpdateQuantity(item.product.id, item.quantity - 1)}>-</button>
+                  <button onClick={() => handleUpdateQuantity(item.product.id_producto || item.product.id, item.quantity - 1)}>-</button>
                   <input
                     type="number"
                     value={item.quantity}
-                    onChange={(e) => handleUpdateQuantity(item.product.id, parseInt(e.target.value))}
+                    onChange={(e) => handleUpdateQuantity(item.product.id_producto || item.product.id, parseInt(e.target.value))}
                     min="1"
                   />
-                  <button onClick={() => handleUpdateQuantity(item.product.id, item.quantity + 1)}>+</button>
+                  <button onClick={() => handleUpdateQuantity(item.product.id_producto || item.product.id, item.quantity + 1)}>+</button>
                 </div>
                 <p>Subtotal: ${(item.product.precio_producto * item.quantity).toFixed(2)}</p>
-                <button onClick={() => handleRemoveItem(item.product.id)} className="remove-item-button">
+                <button onClick={() => handleRemoveItem(item.product.id_producto || item.product.id)} className="remove-item-button">
                   Eliminar
                 </button>
               </div>

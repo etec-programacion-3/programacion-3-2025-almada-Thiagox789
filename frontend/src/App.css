@@ -668,3 +668,32 @@ nav {
   border-radius: 10px;
   border: 1px solid rgba(220, 53, 69, 0.2);
 }
+
+/* Small extras for uploader and purchases */
+.product-uploader {
+  font-size: 0.9rem;
+  color: #475569;
+  margin-top: 8px;
+}
+
+.my-purchases .purchase-card {
+  border: 1px solid #e2e8f0;
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  background: #ffffff;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.purchase-product img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 12px;
+}
+
+.purchase-card h3 { margin: 0 0 8px 0; }
+

@@ -10,6 +10,7 @@ import Carrito from './components/Carrito';
 import ProductDetailPage from './components/ProductDetailPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import CrearProducto from './components/CrearProducto';
+import MyPurchases from './components/MyPurchases';
 
 function App() {
   const { isAuthenticated, user, logout } = useContext(AuthContext);
@@ -27,6 +28,7 @@ function App() {
             {isAuthenticated ? (
               <>
                 <li><Link to="/">Inicio</Link></li>
+                    <li><Link to="/mis-compras">Mis compras</Link></li>
                 <li><Link to="/crear-producto">Crear Producto</Link></li>
                 <li><Link to="/Carrito">Carrito</Link></li>
                 <li className="nav-user"><span>{user && user.email}</span></li>
@@ -82,6 +84,14 @@ function App() {
           element={
             <ProtectedRoute>
               <CrearProducto />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mis-compras"
+          element={
+            <ProtectedRoute>
+              <MyPurchases />
             </ProtectedRoute>
           }
         />
