@@ -23,7 +23,7 @@ function Productos() {
   }, []); // The empty dependency array ensures this effect runs only once
 
   return (
-    <div>
+    <div className="container">
       <h1>Nuestros Productos</h1>
       <div className="products-container">
         {products.map(product => (

@@ -28,7 +28,7 @@ const Login = () => {
     };
 
     return (
-        <div className="auth-container">
+        <div className="container auth-container">
             <form className="auth-form" onSubmit={onSubmit}>
                 <h2>Login</h2>
                 <div className="form-group">

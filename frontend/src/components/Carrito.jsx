@@ -1,9 +1,11 @@
 import React from 'react';
 import { useCart } from '../context/CartContext.jsx';
+import { useToast } from '../context/ToastContext.jsx';
 import axios from 'axios';
 
 function Carrito() {
   const { cartState, dispatch } = useCart();
+  const { addToast } = useToast();
 
   const handleCheckout = async () => {
     if (window.confirm('¿Estás seguro de que quieres proceder al pago?')) {
@@ -15,10 +17,10 @@ function Carrito() {
         );
         await Promise.all(promises);
         dispatch({ type: 'CLEAR_CART' });
-        alert('¡Pago realizado con éxito!');
+        addToast('¡Pago realizado con éxito!', 'success');
       } catch (error) {
         console.error('Error al actualizar el stock:', error);
-        alert('Hubo un error al procesar tu pedido. Por favor, inténtalo de nuevo.');
+        addToast('Hubo un error al procesar tu pedido. Por favor, inténtalo de nuevo.', 'error');
       }
     }
   };
@@ -41,7 +43,7 @@ function Carrito() {
   };
 
   return (
-    <div className="cart-container">
+    <div className="container cart-container">
       <h1>Tu Carrito de Compras</h1>
       {cartState.items.length === 0 ? (
         <p>El carrito está vacío.</p>
