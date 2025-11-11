@@ -20,3 +20,11 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email_usuario: Optional[str] = None
+
+class UsuarioBase(BaseModel):
+    email_usuario: EmailStr
+    nombre_usuario: str
+    apellido_usuario: str
+
+    class Config:
+        from_attributes = True

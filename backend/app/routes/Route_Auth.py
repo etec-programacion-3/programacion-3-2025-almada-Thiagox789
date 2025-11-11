@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.database.db import SessionLocal
 from app.models.ORM_User import Usuario
-from app.schemas.Usuario import RegistroUsuario, LoginUsuario, Token, TokenData
+from app.schemas.Usuario import RegistroUsuario, LoginUsuario, Token, TokenData, UsuarioBase
 from auth import hashear_contraseña, verificar_haseho, crear_token_JWT, Obtener_Ususario_Actual
 
 
@@ -58,3 +58,13 @@ def iniciar_sesion_para_token_acceso(user_credentials: LoginUsuario, db: Session
 @router.get("/protected", response_model=dict)
 async def ruta_protegida(current_user: TokenData = Depends(Obtener_Ususario_Actual)):
     return {"mensaje": f"Bienvenido, {current_user.email_usuario}! Has accedido a una ruta protegida."}
+
+@router.get("/me", response_model=UsuarioBase)
+def get_current_user(current_user: TokenData = Depends(Obtener_Ususario_Actual), db: Session = Depends(Ontener_Sesion_DB)):
+    user = db.query(Usuario).filter(Usuario.email_usuario == current_user.email_usuario).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Usuario no encontrado",
+        )
+    return user

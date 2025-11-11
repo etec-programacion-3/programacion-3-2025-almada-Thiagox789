@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from typing import List
 
 from app.database.db import get_db
@@ -35,21 +35,20 @@ def obtener_compras_mias(current_user = Depends(Obtener_Ususario_Actual), db: Se
     if not usuario:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuario no encontrado")
 
-    compras = db.query(ORMCompra).filter(ORMCompra.usuario_id == usuario.id_usuario).all()
+    compras = db.query(ORMCompra).options(joinedload(ORMCompra.producto)).filter(ORMCompra.usuario_id == usuario.id_usuario).all()
 
-    # Construir respuesta enriquecida incluyendo datos del producto cuando estén disponibles
+    # Construir respuesta enriquecida
     resultado = []
     for c in compras:
-        producto = db.get(ORMProducto, c.producto_id)
         producto_data = None
-        if producto is not None:
+        if c.producto:
             producto_data = {
-                "id_producto": producto.id_producto,
-                "nombre_producto": producto.nombre_producto,
-                "descripcion_producto": producto.descripcion_producto,
-                "cantidad_producto": producto.cantidad_producto,
-                "precio_producto": producto.precio_producto,
-                "image_url": getattr(producto, 'image_url', None)
+                "id_producto": c.producto.id_producto,
+                "nombre_producto": c.producto.nombre_producto,
+                "descripcion_producto": c.producto.descripcion_producto,
+                "cantidad_producto": c.producto.cantidad_producto,
+                "precio_producto": c.producto.precio_producto,
+                "image_url": getattr(c.producto, 'image_url', None)
             }
 
         resultado.append({

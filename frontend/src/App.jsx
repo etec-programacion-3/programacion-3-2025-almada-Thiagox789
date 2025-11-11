@@ -31,7 +31,7 @@ function App() {
                     <li><Link to="/mis-compras">Mis compras</Link></li>
                 <li><Link to="/crear-producto">Crear Producto</Link></li>
                 <li><Link to="/Carrito">Carrito</Link></li>
-                <li className="nav-user"><span>{user && user.email}</span></li>
+                <li className="nav-user"><span>{user && user.email_usuario}</span></li>
                 <li><button className="link-button" onClick={logout}>Cerrar Sesión</button></li>
               </>
             ) : (
