@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 import ToastContainer from '../components/ToastContainer';
 
 const ToastContext = createContext();
@@ -14,14 +14,14 @@ export const useToast = () => {
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
-  const addToast = (message, type = 'info') => {
+  const addToast = useCallback((message, type = 'info') => {
     const id = Date.now() + Math.random();
     setToasts((prevToasts) => [...prevToasts, { id, message, type }]);
-  };
+  }, []);
 
-  const removeToast = (id) => {
+  const removeToast = useCallback((id) => {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
-  };
+  }, []);
 
   return (
     <ToastContext.Provider value={{ addToast, removeToast }}>
