@@ -65,6 +65,9 @@ const ProductDetailPage = () => {
                 <h1 className="product-detail-title">{product.nombre_producto}</h1>
                 <div className="product-detail-info">
                     <p><strong>Descripción:</strong> {product.descripcion_producto}</p>
+                    {product.usuario && (
+                        <p><strong>Subido por:</strong> {product.usuario.nombre_usuario || product.usuario.email_usuario}</p>
+                    )}
                     <p><strong>Precio:</strong> <span className="product-detail-price">${product.precio_producto}</span></p>
                     <p><strong>Cantidad disponible:</strong> {product.cantidad_producto}</p>
                 </div>

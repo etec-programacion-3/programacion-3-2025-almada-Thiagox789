@@ -1,99 +1,119 @@
-@hostname = http://127.0.0.1:8000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlckBleGFtcGxlLmNvbSIsImV4cCI6MTc2MTM1ODY3M30.ExqCX72qWAdMMiVGK9saFI091GwazyG7l2IhLIHUzAg
+@host = http://127.0.0.1:8000
+@email = test23232@example.com
+@password = pass12345
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MjMyMzJAZXhhbXBsZS5jb20iLCJleHAiOjE3NjI4Mjc2Mzh9.7J2BVx19WZWH4Lx58vLLZ_fYzMiYhb9hSE1dkUHuItg
 
 ###
-# Rutas de prueba
-###
-
-# Obtener mensaje de prueba
-GET {{hostname}}/prueba/
-Content-Type: application/json
-
-###
-
-# Obtener otro mensaje de prueba
-GET {{hostname}}/prueba/probando/otras/barras
-Content-Type: application/json
-
-###
-# Rutas de autenticación
-###
-
-# Registrar un nuevo usuario
-POST {{hostname}}/auth/register
+# Registrar nuevo usuario
+POST {{host}}/auth/register
 Content-Type: application/json
 
 {
-  "email_usuario": "testuser@example.com",
-  "nombre_usuario": "test",
-  "apellido_usuario": "user",
-  "password": "testpassword"
+  "email_usuario": "{{email}}",
+  "nombre_usuario": "TestHTTP",
+  "apellido_usuario": "User",
+  "password": "{{password}}"
 }
 
 ###
 
-# Iniciar sesión para obtener token
-# @name login
-POST {{hostname}}/auth/login
+# Iniciar sesión (obtener token)
+# @name loginUser
+POST {{host}}/auth/login
 Content-Type: application/json
 
 {
-  "email_usuario": "testuser@example.com",
-  "password": "testpassword"
+  "email_usuario": "{{email}}",
+  "password": "{{password}}"
 }
 
 ###
-@token = {{login.response.body.access_token}}
+
+@token = {{loginUser.response.body.access_token}}
 
 # Acceder a una ruta protegida
-GET {{hostname}}/auth/protected
+GET {{host}}/auth/protected
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 ###
-# Rutas de productos
-###
 
-# Obtener todos los productos (sin autenticación)
-GET {{hostname}}/products/
-Content-Type: application/json
-
-###
-
-# Obtener un producto por ID (sin autenticación)
-GET {{hostname}}/products/1
-Content-Type: application/json
-
-###
-
-# Crear un nuevo producto (con autenticación)
-POST {{hostname}}/products/
+# Crear producto (requiere autenticación)
+# @name createProduct
+POST {{host}}/products/
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "nombre_producto": "Pongase serio ciervo",
-  "descripcion_producto": "Prueba poniendo imagenes.",
-  "precio_producto": 19.99,
-  "cantidad_producto": 100,
-  "image_url": "https://st2.depositphotos.com/6587396/9405/i/950/depositphotos_94055318-stock-photo-face-of-female-deer.jpg"
+  "nombre_producto": "HTTP Test Product",
+  "descripcion_producto": "Producto creado desde test.http",
+  "cantidad_producto": 5,
+  "precio_producto": 19.9,
+  "image_url": "https://picsum.photos/200"
 }
 
 ###
 
-# Actualizar un producto (con autenticación)
-PUT {{hostname}}/products/1
+@product_id = {{createProduct.response.body.id_producto}}
+
+# Listar productos
+GET {{host}}/products/
+Content-Type: application/json
+
+###
+
+# Obtener producto específico
+GET {{host}}/products/{{product_id}}
+Content-Type: application/json
+
+###
+
+# Actualizar producto
+PUT {{host}}/products/{{product_id}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "nombre_producto": "Producto de prueba actualizado",
+  "nombre_producto": "Producto actualizado desde HTTP",
+  "descripcion_producto": "Nueva descripción",
   "precio_producto": 29.99
 }
 
 ###
 
-# Eliminar un producto (con autenticación)
-DELETE {{hostname}}/products/4
+# Actualizar stock del producto
+PUT {{host}}/products/{{product_id}}/stock
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "quantity": 2
+}
+
+###
+
+# Crear compra (checkout)
+# @name createPurchase
+POST {{host}}/purchases/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "items": [
+    { "producto_id": {{product_id}}, "cantidad": 1 }
+  ]
+}
+
+###
+
+# Obtener mis compras
+GET {{host}}/purchases/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+# Eliminar producto
+DELETE {{host}}/products/{{product_id}}
 Authorization: Bearer {{token}}
 Content-Type: application/json

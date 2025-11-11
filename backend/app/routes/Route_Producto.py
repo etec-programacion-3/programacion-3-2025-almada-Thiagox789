@@ -7,6 +7,7 @@ from typing import List
 
 from app.database.db import get_db
 from app.models.ORM_Producto import Producto as ORMProducto
+from app.models.ORM_User import Usuario as ORMUsuario
 from app.schemas.Producto import Producto, ProductoCreate, ProductoUpdate
 from auth import Obtener_Ususario_Actual
 
@@ -51,11 +52,19 @@ def crear_producto(
     db: Session = Depends(get_db),                # Conectarse a la base de datos
     current_user: dict = Depends(Obtener_Ususario_Actual) # Verifica que el usuario esté autenticado
 ):
-    db_producto = ORMProducto(**producto.dict())  # Crea un objeto ORMProducto con los datos recibidos
-    db.add(db_producto)                           # Agrega el producto a la sesión de la base de datos
-    db.commit()                                   # Confirma los cambios en la base de datos
-    db.refresh(db_producto)                       # Actualiza el objeto con valores generados automáticamente (como id)
-    return db_producto                            # Devuelve el producto creado al cliente
+    # Buscar usuario en base al token (current_user contiene email_usuario)
+    usuario = db.query(ORMUsuario).filter(ORMUsuario.email_usuario == getattr(current_user, 'email_usuario', None)).first()
+    if not usuario:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Usuario no encontrado o no autorizado")
+
+    # Crear producto y asignar el id del usuario que lo crea
+    data = producto.dict()
+    data['id_usuario'] = usuario.id_usuario
+    db_producto = ORMProducto(**data)
+    db.add(db_producto)
+    db.commit()
+    db.refresh(db_producto)
+    return db_producto
 
 #Ia #
 @router.put("/{producto_id}", response_model=Producto)
