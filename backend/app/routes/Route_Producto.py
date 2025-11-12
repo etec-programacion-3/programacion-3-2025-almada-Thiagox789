@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload # Importar joinedload
 from typing import List
 
 from app.database.db import get_db
@@ -23,7 +23,7 @@ def leer_productos(
     min_price: float = None,
     max_price: float = None
 ):
-    query = db.query(ORMProducto)
+    query = db.query(ORMProducto).options(joinedload(ORMProducto.usuario)) # Eager-load user
     if min_price is not None:
         query = query.filter(ORMProducto.precio_producto >= min_price)
     if max_price is not None:
@@ -37,7 +37,7 @@ def leer_productos(
 def leer_producto_por_id(
     producto_id: int, 
     db: Session = Depends(get_db)):
-        producto = db.get(ORMProducto, producto_id)
+        producto = db.query(ORMProducto).options(joinedload(ORMProducto.usuario)).filter(ORMProducto.id_producto == producto_id).first() # Eager-load user
         if producto is None:    # Si el producto no se encuentra, devolver un producto no encontrado y el famoso error 404
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
