@@ -19,6 +19,7 @@ class ProductoUpdate(ProductoBase):
 
 class Producto(ProductoBase):
     id_producto: int
+    id_usuario: int | None = None  # Make id_usuario optional
     image_url: str | None = None
     
     class Config:
