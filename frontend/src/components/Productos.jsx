@@ -7,7 +7,7 @@ function Productos() {
 
   useEffect(() => {
     // Fetch products from the backend API
-    fetch('http://localhost:8000/products') // Assuming the backend is running on port 8000
+    fetch(`${import.meta.env.VITE_API_URL}/products`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

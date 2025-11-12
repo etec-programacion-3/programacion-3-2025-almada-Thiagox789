@@ -3,6 +3,10 @@ from typing import Optional
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 from fastapi.security import OAuth2PasswordBearer
 
 from app.schemas.Usuario import TokenData
@@ -11,7 +15,7 @@ from app.schemas.Usuario import TokenData
 Cifrador = CryptContext(schemes=["bcrypt"]) # Usar bcrypt para hashear las contraseñas
 
 # Configuración para JWT
-SECRET_KEY = "CONTRASEÑA_ULTRA_SEGURRRA"
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 Expiracion_Token = 30 #Expiracion del token en minutos
 
