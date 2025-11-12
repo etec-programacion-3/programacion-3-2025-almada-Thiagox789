@@ -697,3 +697,13 @@ nav {
 
 .purchase-card h3 { margin: 0 0 8px 0; }
 
+/* Hide spin buttons for number input */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
