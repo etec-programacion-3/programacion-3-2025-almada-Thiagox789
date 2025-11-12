@@ -19,7 +19,7 @@ const MyPurchases = () => {
       }
 
       try {
-        const response = await axios.get('http://localhost:8000/purchases/me', {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/purchases/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setPurchases(response.data);

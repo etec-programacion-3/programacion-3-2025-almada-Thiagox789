@@ -20,7 +20,7 @@ const HomePage = () => {
       if (minPrice) params.append('min_price', minPrice);
       if (maxPrice) params.append('max_price', maxPrice);
 
-      const response = await axios.get(`http://localhost:8000/products/`, { params });
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/products/`, { params });
       setProducts(response.data);
     } catch (err) {
       setError(err);

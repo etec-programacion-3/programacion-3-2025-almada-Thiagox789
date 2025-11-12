@@ -21,7 +21,7 @@ function Carrito() {
           cantidad: item.quantity
         }));
 
-        const response = await axios.post('http://localhost:8000/purchases/', { items }, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/purchases/`, { items }, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
