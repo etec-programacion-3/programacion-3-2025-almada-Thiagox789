@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from .Usuario import UsuarioBase # Importar el esquema de usuario
 
 class ProductoBase(BaseModel):
     nombre_producto: str
@@ -19,7 +20,9 @@ class ProductoUpdate(ProductoBase):
 
 class Producto(ProductoBase):
     id_producto: int
+    id_usuario: int | None = None  # Make id_usuario optional
     image_url: str | None = None
+    usuario: UsuarioBase | None = None # Añadir el usuario asociado
     
     class Config:
         orm_mode = True

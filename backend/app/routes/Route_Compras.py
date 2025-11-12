@@ -9,6 +9,7 @@ from app.models.ORM_User import Usuario as ORMUsuario
 from auth import Obtener_Ususario_Actual
 from pydantic import BaseModel
 from typing import List
+from app.schemas.Compra import CompraDetalle, ProductoComprado
 
 
 class PurchaseItem(BaseModel):
@@ -25,7 +26,7 @@ router = APIRouter(
 )
 
 
-@router.get("/me")
+@router.get("/me", response_model=List[CompraDetalle])
 def obtener_compras_mias(current_user = Depends(Obtener_Ususario_Actual), db: Session = Depends(get_db)):
     # current_user contains TokenData with email_usuario
     if not current_user or not getattr(current_user, 'email_usuario', None):
@@ -40,24 +41,19 @@ def obtener_compras_mias(current_user = Depends(Obtener_Ususario_Actual), db: Se
     # Construir respuesta enriquecida
     resultado = []
     for c in compras:
-        producto_data = None
         if c.producto:
-            producto_data = {
-                "id_producto": c.producto.id_producto,
-                "nombre_producto": c.producto.nombre_producto,
-                "descripcion_producto": c.producto.descripcion_producto,
-                "cantidad_producto": c.producto.cantidad_producto,
-                "precio_producto": c.producto.precio_producto,
-                "image_url": getattr(c.producto, 'image_url', None)
-            }
-
-        resultado.append({
-            "id_compra": c.id_compra,
-            "usuario_id": c.usuario_id,
-            "producto_id": c.producto_id,
-            "cantidad": c.cantidad,
-            "producto": producto_data
-        })
+            producto_comprado = ProductoComprado(
+                nombre_producto=c.producto.nombre_producto,
+                descripcion_producto=c.producto.descripcion_producto,
+                precio_producto=c.producto.precio_producto,
+                cantidad=c.cantidad, # La cantidad comprada es la de la compra, no el stock actual del producto
+                image_url=getattr(c.producto, 'image_url', None)
+            )
+            resultado.append(CompraDetalle(
+                id_compra=c.id_compra,
+                producto=producto_comprado,
+                cantidad=c.cantidad
+            ))
 
     return resultado
 
