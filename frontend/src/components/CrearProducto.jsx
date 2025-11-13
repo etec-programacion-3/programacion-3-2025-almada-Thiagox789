@@ -23,7 +23,7 @@ const CrearProducto = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:8000/products/', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/products/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

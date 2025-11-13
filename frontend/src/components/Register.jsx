@@ -30,7 +30,7 @@ const Register = () => {
                 }
             };
             const body = JSON.stringify(newUser);
-            const res = await axios.post('http://localhost:8000/auth/register', body, config);
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, body, config);
             console.log(res.data);
             alert('Registro exitoso. Por favor, inicia sesión.');
             navigate('/login');
