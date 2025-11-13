@@ -6,4 +6,7 @@ venv/
 __pycache__/
 
 # Environment variables
-.env
+*.env
+/backend/*.env
+/frontend/*.env
+
