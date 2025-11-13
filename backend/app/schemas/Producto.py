@@ -25,4 +25,4 @@ class Producto(ProductoBase):
     usuario: UsuarioBase | None = None # Añadir el usuario asociado
     
     class Config:
-        orm_mode = True
+        from_attributes = True

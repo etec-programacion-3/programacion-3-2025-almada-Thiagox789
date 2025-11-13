@@ -15,7 +15,7 @@ class Compra(CompraBase):
     # Puedes añadir más campos si tu modelo de Compra los tiene, como fecha de compra, etc.
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ProductoComprado(BaseModel):
     nombre_producto: str
@@ -25,7 +25,7 @@ class ProductoComprado(BaseModel):
     image_url: str | None = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class CompraDetalle(BaseModel):
     id_compra: int
@@ -34,4 +34,4 @@ class CompraDetalle(BaseModel):
     # Agrega aquí cualquier otro detalle de la compra que quieras mostrar
 
     class Config:
-        orm_mode = True
+        from_attributes = True
