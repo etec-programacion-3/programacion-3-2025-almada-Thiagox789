@@ -84,9 +84,9 @@ Antes de ejecutar la aplicación, necesitas configurar las variables de entorno 
 **Para el backend:**
 
 1.  Navega al directorio `backend`.
-2.  Crea un nuevo archivo llamado `.env` copiando el archivo de ejemplo:
+2.  Crea un nuevo archivo llamado `.env`:
     ```bash
-    cp .env.example .env
+    touch .env
     ```
 3.  Abre el archivo `.env` y actualiza las variables según sea necesario. El contenido debería ser similar a esto:
     ```
@@ -100,9 +100,9 @@ Antes de ejecutar la aplicación, necesitas configurar las variables de entorno 
 **Para el frontend:**
 
 1.  Navega al directorio `frontend`.
-2.  Crea un nuevo archivo llamado `.env` copiando el archivo de ejemplo:
+2.  Crea un nuevo archivo llamado `.env`:
     ```bash
-    cp .env.example .env
+    touch .env
     ```
 3.  El archivo `.env` debe contener la URL de tu API de backend:
     ```
@@ -120,14 +120,13 @@ Antes de ejecutar la aplicación, necesitas configurar las variables de entorno 
 
 2.  **Crea un entorno virtual (recomendado):**
     ```bash
-    python -m venv venv
+    python3 -m venv venv
     ```
 
 3.  **Activa el entorno virtual:**
-    -
-        ```bash
-        source venv/bin/activate
-        ```
+    ```bash
+    source venv/bin/activate
+    ```
 
 4.  **Instala las dependencias del backend:**
     ```bash
@@ -180,11 +179,3 @@ El backend proporciona los siguientes endpoints principales de la API:
 -   `/products/{product_id}`: Actualizar un producto existente (requiere autenticación).
 -   `/products/{product_id}/stock`: Actualizar el stock de un producto (usado después de la compra).
 -   `/products/{product_id}`: Eliminar un producto (requiere autenticación).
-
-## Contribuciones
-
-Siéntete libre de hacer un fork de este repositorio, abrir issues y enviar pull requests.
-
-## Licencia
-
-Este proyecto está bajo la Licencia MIT.
