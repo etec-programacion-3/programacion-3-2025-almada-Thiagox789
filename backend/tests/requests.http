@@ -1,0 +1,408 @@
+### Mundo Deporte - Archivo de Pruebas de Endpoints
+### Compatible con VS Code REST Client Extension
+### Autor: Test Suite
+### Descripción: Pruebas completas de todos los endpoints de la API
+
+### ============================================
+### VARIABLES GLOBALES
+### ============================================
+@host = http://localhost:8000
+@contentType = application/json
+
+### Variables para autenticación
+@testEmail = test@mundodeporte.com
+@testPassword = Password123!
+@testNombre = Juan
+@testApellido = Pérez
+
+### Variables para productos
+@productName = Pelota de Fútbol
+@productDesc = Pelota oficial de fútbol profesional
+@productPrice = 45.99
+@productQuantity = 50
+
+### ============================================
+### 1. AUTENTICACIÓN - REGISTRO
+### ============================================
+
+### 1.1 Registrar nuevo usuario
+# @name registerUser
+POST {{host}}/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email_usuario": "{{testEmail}}",
+  "nombre_usuario": "{{testNombre}}",
+  "apellido_usuario": "{{testApellido}}",
+  "password": "{{testPassword}}"
+}
+
+###
+
+### 1.2 Intentar registrar usuario duplicado (debe fallar)
+POST {{host}}/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email_usuario": "{{testEmail}}",
+  "nombre_usuario": "Juan",
+  "apellido_usuario": "Pérez",
+  "password": "Password123!"
+}
+
+###
+
+### ============================================
+### 2. AUTENTICACIÓN - LOGIN
+### ============================================
+
+### 2.1 Iniciar sesión y obtener token
+# @name loginUser
+POST {{host}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email_usuario": "{{testEmail}}",
+  "password": "{{testPassword}}"
+}
+
+###
+
+### 2.2 Intento de login con credenciales incorrectas (debe fallar)
+POST {{host}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email_usuario": "{{testEmail}}",
+  "password": "PasswordIncorrecto"
+}
+
+###
+
+### Capturar token de login exitoso
+@token = {{loginUser.response.body.access_token}}
+
+### ============================================
+### 3. RUTAS PROTEGIDAS
+### ============================================
+
+### 3.1 Acceder a ruta protegida con token válido
+GET {{host}}/auth/protected
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+###
+
+### 3.2 Obtener información del usuario actual
+# @name getCurrentUser
+GET {{host}}/auth/me
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+###
+
+### 3.3 Acceder a ruta protegida sin token (debe fallar)
+GET {{host}}/auth/protected
+Content-Type: {{contentType}}
+
+###
+
+### ============================================
+### 4. PRODUCTOS - LECTURA (Sin autenticación)
+### ============================================
+
+### 4.1 Obtener todos los productos
+# @name getAllProducts
+GET {{host}}/products/
+Content-Type: {{contentType}}
+
+###
+
+### 4.2 Obtener productos con filtro de precio mínimo
+GET {{host}}/products/?min_price=20
+Content-Type: {{contentType}}
+
+###
+
+### 4.3 Obtener productos con filtro de precio máximo
+GET {{host}}/products/?max_price=50
+Content-Type: {{contentType}}
+
+###
+
+### 4.4 Obtener productos con rango de precios
+GET {{host}}/products/?min_price=20&max_price=100
+Content-Type: {{contentType}}
+
+###
+
+### ============================================
+### 5. PRODUCTOS - CRUD (Con autenticación)
+### ============================================
+
+### 5.1 Crear un nuevo producto
+# @name createProduct
+POST {{host}}/products/
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "nombre_producto": "{{productName}}",
+  "descripcion_producto": "{{productDesc}}",
+  "cantidad_producto": {{productQuantity}},
+  "precio_producto": {{productPrice}},
+  "image_url": "https://picsum.photos/seed/football/400/300"
+}
+
+###
+
+### Capturar ID del producto creado
+@productId = {{createProduct.response.body.id_producto}}
+
+### 5.2 Obtener producto específico por ID
+GET {{host}}/products/{{productId}}
+Content-Type: {{contentType}}
+
+###
+
+### 5.3 Obtener producto inexistente (debe fallar)
+GET {{host}}/products/99999
+Content-Type: {{contentType}}
+
+###
+
+### 5.4 Actualizar un producto
+# @name updateProduct
+PUT {{host}}/products/{{productId}}
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "nombre_producto": "Pelota de Fútbol - Actualizada",
+  "descripcion_producto": "Pelota oficial profesional de alta calidad",
+  "precio_producto": 55.99
+}
+
+###
+
+### 5.5 Actualizar solo el nombre del producto
+PUT {{host}}/products/{{productId}}
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "nombre_producto": "Pelota de Fútbol Pro"
+}
+
+###
+
+### 5.6 Crear un segundo producto para pruebas de compra
+# @name createProduct2
+POST {{host}}/products/
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "nombre_producto": "Zapatillas de Fútbol",
+  "descripcion_producto": "Zapatillas profesionales con taco ajustable",
+  "cantidad_producto": 30,
+  "precio_producto": 89.99,
+  "image_url": "https://picsum.photos/seed/shoes/400/300"
+}
+
+###
+
+### Capturar ID del segundo producto
+@productId2 = {{createProduct2.response.body.id_producto}}
+
+### ============================================
+### 6. COMPRAS
+### ============================================
+
+### 6.1 Crear una compra (una item)
+# @name createPurchase
+POST {{host}}/purchases/
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "items": [
+    {
+      "producto_id": {{productId}},
+      "cantidad": 2
+    }
+  ]
+}
+
+###
+
+### 6.2 Crear compra con múltiples items
+# @name createMultiplePurchase
+POST {{host}}/purchases/
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "items": [
+    {
+      "producto_id": {{productId}},
+      "cantidad": 1
+    },
+    {
+      "producto_id": {{productId2}},
+      "cantidad": 3
+    }
+  ]
+}
+
+###
+
+### 6.3 Obtener todas las compras del usuario actual
+GET {{host}}/purchases/me
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+###
+
+### 6.4 Intento de crear compra sin autenticación (debe fallar)
+POST {{host}}/purchases/
+Content-Type: {{contentType}}
+
+{
+  "items": [
+    {
+      "producto_id": {{productId}},
+      "cantidad": 1
+    }
+  ]
+}
+
+###
+
+### 6.5 Intentar comprar más unidades de las disponibles (debe fallar)
+POST {{host}}/purchases/
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "items": [
+    {
+      "producto_id": {{productId}},
+      "cantidad": 10000
+    }
+  ]
+}
+
+###
+
+### ============================================
+### 7. GESTIÓN DE STOCK
+### ============================================
+
+### 7.1 Actualizar stock de un producto (reducir)
+# @name updateStock
+PUT {{host}}/products/{{productId}}/stock
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "quantity": 3
+}
+
+###
+
+### 7.2 Verificar stock actualizado
+GET {{host}}/products/{{productId}}
+Content-Type: {{contentType}}
+
+###
+
+### ============================================
+### 8. ELIMINAR PRODUCTOS
+### ============================================
+
+### 8.1 Eliminar un producto
+DELETE {{host}}/products/{{productId2}}
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+###
+
+### 8.2 Verificar que el producto fue eliminado
+GET {{host}}/products/{{productId2}}
+Content-Type: {{contentType}}
+
+###
+
+### 8.3 Intentar eliminar producto inexistente (debe fallar)
+DELETE {{host}}/products/99999
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+###
+
+### ============================================
+### 9. PRUEBAS DE ERRORES
+### ============================================
+
+### 9.1 Token inválido
+GET {{host}}/products/
+Authorization: Bearer tokenInvalido
+Content-Type: {{contentType}}
+
+###
+
+### 9.2 Crear producto sin autenticación (debe fallar)
+POST {{host}}/products/
+Content-Type: {{contentType}}
+
+{
+  "nombre_producto": "Producto sin auth",
+  "descripcion_producto": "Esto debe fallar",
+  "cantidad_producto": 10,
+  "precio_producto": 25.50,
+  "image_url": "https://example.com/image.jpg"
+}
+
+###
+
+### ============================================
+### 10. INFORMACIÓN GENERAL
+### ============================================
+
+### 10.1 Obtener información de bienvenida
+GET {{host}}/
+Content-Type: {{contentType}}
+
+###
+
+### ============================================
+### NOTAS DE USO:
+### ============================================
+### 
+### 1. Esta suite de tests prueba TODOS los endpoints de la API
+### 2. Ejecutar las requests en orden para asegurar que los datos
+###    capturados (token, IDs) estén disponibles para las siguientes
+### 3. Las requests con @name permiten reutilizar sus respuestas
+### 4. Los filtros de precio incluyen ejemplos de:
+###    - Consulta sin filtros
+###    - Filtro mínimo
+###    - Filtro máximo
+###    - Rango completo
+### 5. Se incluyen casos de error para validar manejo de excepciones
+### 6. Cambiar {{host}} si la API está en otro puerto
+###
+### ENDPOINTS CUBIERTOS:
+### ✓ POST   /auth/register        - Registro de usuarios
+### ✓ POST   /auth/login           - Login y obtención de token
+### ✓ GET    /auth/protected       - Ruta protegida
+### ✓ GET    /auth/me              - Obtener usuario actual
+### ✓ GET    /products/            - Listar productos (con filtros)
+### ✓ GET    /products/{id}        - Obtener producto por ID
+### ✓ POST   /products/            - Crear producto
+### ✓ PUT    /products/{id}        - Actualizar producto
+### ✓ DELETE /products/{id}        - Eliminar producto
+### ✓ PUT    /products/{id}/stock  - Actualizar stock
+### ✓ POST   /purchases/           - Crear compra
+### ✓ GET    /purchases/me         - Obtener mis compras
+###
