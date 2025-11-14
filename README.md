@@ -46,7 +46,7 @@ Antes de instalar y ejecutar este proyecto, asegúrate de tener instalado lo sig
 - **Carrito de Compras:** Añadir, eliminar y actualizar cantidades de productos en el carrito.
 - **Gestión de Stock:** Las cantidades de los productos se actualizan después de una compra exitosa.
 - **Simulación de Pago:** Un paso de confirmación antes de finalizar una compra.
-- **Diseño Responsivo:** Una interfaz de usuario moderna y limpia.
+- **Usuarios:** Cada usuario puede vender productos y además ver compras pasadas
 
 ## Tecnologías Utilizadas
 
