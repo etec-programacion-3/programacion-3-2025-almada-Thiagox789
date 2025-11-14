@@ -4,6 +4,7 @@ Este repositorio contiene una aplicación de e-commerce full-stack llamada "Mund
 
 ## Tabla de Contenidos
 
+- [Requisitos Previos](#requisitos-previos)
 - [Características](#características)
 - [Tecnologías Utilizadas](#tecnologías-utilizadas)
 - [Estructura del Proyecto](#estructura-del-proyecto)
@@ -14,6 +15,29 @@ Este repositorio contiene una aplicación de e-commerce full-stack llamada "Mund
 - [Endpoints de la API](#endpoints-de-la-api)
 - [Contribuciones](#contribuciones)
 - [Licencia](#licencia)
+
+## Requisitos Previos
+
+Antes de instalar y ejecutar este proyecto, asegúrate de tener instalado lo siguiente:
+
+### Para el Backend
+- **Python:** Versión 3.13.5
+  - Verifica tu versión: `python3 --version`
+- **pip:** Gestor de paquetes de Python (generalmente viene con Python): version: pip 25.1.1
+  - Verifica tu versión: `pip --version`
+
+### Para el Frontend
+- **Node.js:** Versión 20.19.2
+  - Verifica tu versión: `node --version`
+- **npm:** Versión 9.2.0
+  - Verifica tu versión: `npm --version`
+
+### Herramientas Adicionales (Opcional pero Recomendado)
+- **Git:** Para clonar y gestionar el repositorio
+  - [Descargar Git](https://git-scm.com/)
+- **VS Code:** Editor de código recomendado
+  - [Descargar VS Code](https://code.visualstudio.com/)
+  - Extensión recomendada: **REST Client** (para probar los endpoints)
 
 ## Características
 
@@ -82,8 +106,11 @@ Sigue estos pasos para tener el proyecto funcionando en tu máquina local.
 Antes de ejecutar la aplicación, necesitas configurar las variables de entorno tanto para el backend como para el frontend.
 
 **Para el backend:**
-
-1.  Navega al directorio `backend`.
+Asegurate de estar en la **carpeta raíz del proyecto**, es decir, la carpeta donde se encuentra el directorio `backend y frontend`.
+1.  Navega al directorio `backend`:
+    ```bash
+    cd backend
+    ```
 2.  Crea un nuevo archivo llamado `.env`:
     ```bash
     touch .env
@@ -98,8 +125,12 @@ Antes de ejecutar la aplicación, necesitas configurar las variables de entorno 
     -   `SECRET_KEY`: Una clave secreta para la generación de tokens JWT. Se recomienda usar una cadena larga y aleatoria.
 
 **Para el frontend:**
+Asegurate de estar en la **carpeta raíz del proyecto**, es decir, la carpeta donde se encuentra el directorio `frontend y backend`.
 
-1.  Navega al directorio `frontend`.
+1.  Navega al directorio `frontend`:
+    ```bash
+    cd frontend
+    ```
 2.  Crea un nuevo archivo llamado `.env`:
     ```bash
     touch .env
@@ -112,6 +143,7 @@ Antes de ejecutar la aplicación, necesitas configurar las variables de entorno 
     -   `VITE_API_URL`: La URL de la API del backend. El valor por defecto es `http://localhost:8000`.
 
 ### Configuración del Backend
+Abre una terminal en la **carpeta raíz del proyecto**, es decir, la carpeta donde se encuentra el directorio `backend y frontend`.
 
 1.  **Navega al directorio del backend:**
     ```bash
@@ -133,18 +165,14 @@ Antes de ejecutar la aplicación, necesitas configurar las variables de entorno 
     pip install -r requirements.txt
     ```
 
-5.  **Ejecuta las migraciones de la base de datos:**
-    ```bash
-    alembic upgrade head
-    ```
-
-6.  **Inicia el servidor del backend:**
+5.  **Inicia el servidor del backend:**
     ```bash
     uvicorn app.main:app --reload --port 8000
     ```
     La API del backend estará disponible en `http://localhost:8000`.
 
 ### Configuración del Frontend
+Abre otra terminal en la **carpeta raíz del proyecto**, es decir, la carpeta donde se encuentra el directorio `frontend y backend`.
 
 1.  **Navega al directorio del frontend:**
     ```bash
@@ -169,13 +197,31 @@ Antes de ejecutar la aplicación, necesitas configurar las variables de entorno 
 
 ## Endpoints de la API
 
-El backend proporciona los siguientes endpoints principales de la API:
+El backend proporciona los siguientes endpoints de la API REST:
 
--   `/auth/register`: Registrar un nuevo usuario.
--   `/auth/login`: Autenticar un usuario y obtener un token JWT.
--   `/products/`: Obtener todos los productos (soporta filtrado por `min_price` y `max_price`).
--   `/products/{product_id}`: Obtener un solo producto por ID.
--   `/products/`: Crear un nuevo producto (requiere autenticación).
--   `/products/{product_id}`: Actualizar un producto existente (requiere autenticación).
--   `/products/{product_id}/stock`: Actualizar el stock de un producto (usado después de la compra).
--   `/products/{product_id}`: Eliminar un producto (requiere autenticación).
+### Autenticación
+- **POST** `/auth/register` - Registrar un nuevo usuario
+- **POST** `/auth/login` - Autenticar un usuario y obtener un token JWT
+- **GET** `/auth/protected` - Acceder a una ruta protegida (requiere autenticación)
+- **GET** `/auth/me` - Obtener información del usuario actual (requiere autenticación)
+
+### Productos (Lectura)
+- **GET** `/products/` - Obtener todos los productos (soporta filtrado por `min_price` y `max_price`)
+- **GET** `/products/{id}` - Obtener un producto específico por ID
+
+### Productos (Escritura - Requiere Autenticación)
+- **POST** `/products/` - Crear un nuevo producto
+- **PUT** `/products/{id}` - Actualizar un producto existente
+- **DELETE** `/products/{id}` - Eliminar un producto
+
+### Gestión de Stock
+- **PUT** `/products/{id}/stock` - Actualizar el stock de un producto
+
+### Compras
+- **POST** `/purchases/` - Crear una nueva compra (requiere autenticación)
+- **GET** `/purchases/me` - Obtener todas las compras del usuario actual (requiere autenticación)
+
+### Información General
+- **GET** `/` - Obtener información de bienvenida de la API
+
+> 💡 **Nota:** Para probar todos los endpoints de forma interactiva, consulta el archivo `backend/tests/requests.http` que es compatible con la extensión REST Client de VS Code.
